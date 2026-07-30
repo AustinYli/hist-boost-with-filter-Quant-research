@@ -1,0 +1,248 @@
+{
+  "frozen_specification": {
+    "model": "HistGradientBoostingRegressor excluding predefined momentum-like features",
+    "signal_horizon": "5 trading days",
+    "execution": "after-close signal, next-session execution assumption",
+    "regime_filter": "SOXX close above trailing 200-day moving average",
+    "universe": [
+      "NVDA",
+      "AMD",
+      "MU",
+      "INTC",
+      "TXN",
+      "ADI",
+      "ASML",
+      "AMAT",
+      "LRCX",
+      "KLAC",
+      "TSM",
+      "GFS",
+      "AVGO",
+      "MRVL",
+      "ON",
+      "MPWR",
+      "SWKS",
+      "QRVO",
+      "MCHP",
+      "NXPI",
+      "TER",
+      "LSCC",
+      "ALGM",
+      "DIOD",
+      "CRUS",
+      "RMBS",
+      "ACLS",
+      "AMKR",
+      "COHR",
+      "LITE",
+      "AAOI",
+      "FN",
+      "CIEN",
+      "STM",
+      "UMC",
+      "SIMO"
+    ],
+    "portfolio_construction": {
+      "top_n": 10,
+      "buy_rank_pct": 0.25,
+      "sell_rank_pct": 0.5,
+      "max_weight": 0.1,
+      "no_trade_band": 0.01,
+      "rebalance_every_days": 5,
+      "transaction_cost_bps": 5.0,
+      "min_predicted_return": 0.0
+    },
+    "costs": "5 bps transaction cost assumption in baseline",
+    "selection_features": [
+      "volatility_20d",
+      "volatility_60d",
+      "atr_20_pct",
+      "parkinson_volatility_20d",
+      "relative_volume_20d",
+      "log_dollar_volume",
+      "turnover_proxy",
+      "body_pct",
+      "range_pct",
+      "close_position",
+      "gap_from_yesterday",
+      "upper_shadow_pct",
+      "lower_shadow_pct",
+      "beta_20d_to_soxx",
+      "beta_60d_to_soxx",
+      "cs_rank_relative_volume_20d",
+      "cs_rank_volatility_20d",
+      "cs_rank_log_dollar_volume"
+    ],
+    "warning": "This specification should now be frozen and evaluated on new data without further tuning."
+  },
+  "long_only_200d_filter": {
+    "metrics": {
+      "total_return": 2.673477764937199,
+      "annual_return": 1.2745264904482911,
+      "annual_volatility": 0.41934835484648403,
+      "sharpe_like": 3.039302469458531,
+      "max_drawdown": -0.24665852631803065,
+      "days": 399,
+      "avg_exposure": 0.7406015037593985,
+      "avg_turnover": 0.09373433583959902
+    },
+    "ordinary_active_alpha": {
+      "active_metrics_vs_equal_weight": {
+        "total_return": 0.44959962761729644,
+        "annual_return": 0.26427306508486814,
+        "annual_volatility": 0.15379965899760145,
+        "sharpe_like": 1.7182942199435536,
+        "max_drawdown": -0.06771038881749614,
+        "days": 399
+      },
+      "tracking_error": 0.15379965899760145,
+      "information_ratio": 1.7182942199435536,
+      "ols_daily_alpha": 0.001595884582233622,
+      "ols_annualized_alpha_simple": 0.40216291472287274,
+      "ols_alpha_t_stat": 2.3644974895970163,
+      "beta_soxx": -0.07213225521207699,
+      "beta_momentum": 0.7603844491546468,
+      "observations": 399
+    },
+    "newey_west_active_alpha": {
+      "lag": 5,
+      "daily_alpha": 0.001595884582233622,
+      "annualized_alpha_simple": 0.40216291472287274,
+      "alpha_hac_standard_error": 0.0006079894538153229,
+      "alpha_hac_t_stat": 2.624855698102903,
+      "beta_soxx": -0.07213225521207699,
+      "beta_momentum": 0.7603844491546468,
+      "observations": 399
+    },
+    "deflated_sharpe_approx": {
+      "candidate_count_assumption": 30,
+      "ordinary_annual_sharpe_from_mean": 2.172460238604192,
+      "daily_sharpe": 0.13685213153625558,
+      "skew": -0.23300973150157553,
+      "kurtosis": 5.699931678178883,
+      "daily_sharpe_standard_error": 0.05145846627318043,
+      "expected_max_noise_daily_sharpe": 0.16429738285557596,
+      "deflated_daily_sharpe_approx": -0.02744525131932038,
+      "deflated_sharpe_z_approx": -0.5333476356178252,
+      "note": "Approximation only; use White/Hansen/bootstrap for publication-grade multiple-testing correction."
+    }
+  },
+  "matching_equal_weight_200d_filter": {
+    "total_return": 1.5864347973562531,
+    "annual_return": 0.8224415181246563,
+    "annual_volatility": 0.35669510778581925,
+    "sharpe_like": 2.305726936458289,
+    "max_drawdown": -0.22200629040893716,
+    "days": 399,
+    "avg_exposure": 0.7493734335839599,
+    "avg_turnover": 0.017543859649122806
+  },
+  "long_short_research_sleeve": {
+    "metrics": {
+      "total_return": 0.7912418952518516,
+      "annual_return": 0.4450633529635555,
+      "annual_volatility": 0.23240764452025764,
+      "sharpe_like": 1.915011676497422,
+      "max_drawdown": -0.15497615054822733,
+      "days": 399,
+      "avg_gross_exposure": 1.0,
+      "avg_net_exposure": 0.0,
+      "avg_turnover": 0.2600250626566416
+    },
+    "cost_stress": {
+      "transaction_and_short_cost_5bps": {
+        "total_return": 0.7912418952518516,
+        "annual_return": 0.4450633529635555,
+        "annual_volatility": 0.23240764452025764,
+        "sharpe_like": 1.915011676497422,
+        "max_drawdown": -0.15497615054822733,
+        "days": 399,
+        "avg_gross_exposure": 1.0,
+        "avg_net_exposure": 0.0,
+        "avg_turnover": 0.2600250626566416
+      },
+      "transaction_and_short_cost_25bps": {
+        "total_return": 0.45545707112537204,
+        "annual_return": 0.26749714486564447,
+        "annual_volatility": 0.23327674225058484,
+        "sharpe_like": 1.1466944466255458,
+        "max_drawdown": -0.16770388561329386,
+        "days": 399,
+        "avg_gross_exposure": 1.0,
+        "avg_net_exposure": 0.0,
+        "avg_turnover": 0.2600250626566416
+      },
+      "transaction_and_short_cost_50bps": {
+        "total_return": 0.12189432885111562,
+        "annual_return": 0.07534693523166536,
+        "annual_volatility": 0.23613310799699955,
+        "sharpe_like": 0.3190867044049696,
+        "max_drawdown": -0.18339961237623637,
+        "days": 399,
+        "avg_gross_exposure": 1.0,
+        "avg_net_exposure": 0.0,
+        "avg_turnover": 0.2600250626566416
+      },
+      "transaction_and_short_cost_100bps": {
+        "total_return": -0.3352379305371147,
+        "annual_return": -0.22731990428208837,
+        "annual_volatility": 0.24743374063137608,
+        "sharpe_like": -0.9187102118815191,
+        "max_drawdown": -0.36522480746744546,
+        "days": 399,
+        "avg_gross_exposure": 1.0,
+        "avg_net_exposure": 0.0,
+        "avg_turnover": 0.2600250626566416
+      }
+    },
+    "exposure_report": {
+      "avg_gross_exposure": 1.0,
+      "avg_net_exposure": 0.0,
+      "avg_turnover": 0.2600250626566416,
+      "soxx_beta": 0.10641850477733845,
+      "spy_beta": 0.05130036158105198,
+      "qqq_beta": -0.21710671128010128,
+      "rolling_soxx_beta_60d_mean": -0.0024048993793613434,
+      "rolling_soxx_beta_60d_min": -0.2733838989415848,
+      "rolling_soxx_beta_60d_max": 0.1898719871244663,
+      "long_avg_volatility_20d": 0.04446334514430524,
+      "short_avg_volatility_20d": 0.04244495812419278,
+      "long_avg_log_dollar_volume": 17.2465066556025,
+      "short_avg_log_dollar_volume": 16.731341694093818,
+      "most_common_long_symbols": {
+        "COHR": 154,
+        "LITE": 146,
+        "AAOI": 129,
+        "INTC": 101,
+        "NVDA": 100,
+        "CIEN": 96,
+        "ALGM": 85,
+        "AMD": 75,
+        "MRVL": 61,
+        "FN": 57
+      },
+      "most_common_short_symbols": {
+        "AAOI": 179,
+        "MRVL": 95,
+        "RMBS": 86,
+        "MU": 79,
+        "CRUS": 69,
+        "UMC": 61,
+        "NVDA": 60,
+        "LITE": 57,
+        "FN": 50,
+        "QRVO": 50
+      }
+    }
+  },
+  "selection_bias_note": {
+    "issue": "Many model families, feature sets, overlays, and portfolio constructions were explored before freezing this spec.",
+    "practical_response": "Do not tune further on this same test period; track paper/live-forward performance and/or test on a later untouched period.",
+    "stronger_methods_to_add": [
+      "White Reality Check",
+      "Hansen SPA test",
+      "stationary bootstrap over daily returns",
+      "probability of backtest overfitting"
+    ]
+  }
+}
