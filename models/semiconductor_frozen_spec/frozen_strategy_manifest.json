@@ -1,8 +1,8 @@
 {
-  "freeze_timestamp_utc": "2026-07-30T21:19:37.430912+00:00",
+  "freeze_timestamp_utc": "2026-07-30T21:33:32.257818+00:00",
   "freeze_date": "2026-07-30",
-  "git_commit_hash": null,
-  "git_status_short": "?? .env.example\n?? .gitignore\n?? ml_deploy_worldquant_model.py\n?? ml_experiments.py\n?? ml_feature_research.py\n?? ml_feature_set_runs.py\n?? ml_feature_signal_sweep.py\n?? ml_linear_runs.py\n?? ml_neural_runs.py\n?? ml_neural_selective_runs.py\n?? ml_offline_train.py\n?? ml_ohlcv_token_embedding_transformer.py\n?? ml_price_diff_runs.py\n?? ml_regression_second_stage.py\n?? ml_regression_target_sweep.py\n?? ml_semiconductor_forward_test.py\n?? ml_semiconductor_frozen_manifest.py\n?? ml_semiconductor_frozen_spec_diagnostics.py\n?? ml_semiconductor_placebo_stability_tests.py\n?? ml_semiconductor_regime_overlay_tests.py\n?? ml_semiconductor_robustness_tests.py\n?? ml_semiconductor_sector_model.py\n?? ml_semiconductor_walkforward_compare.py\n?? ml_transformer_sequence_runs.py\n?? ml_worldquant_alpha_runs.py\n?? trailing_stop_bot.py",
+  "git_commit_hash": "6a5606ccf9f9aa5e1382c07d4583e047c172d6e8",
+  "git_status_short": "?? ml_deploy_worldquant_model.py\n?? ml_experiments.py\n?? ml_feature_research.py\n?? ml_feature_set_runs.py\n?? ml_feature_signal_sweep.py\n?? ml_linear_runs.py\n?? ml_neural_runs.py\n?? ml_neural_selective_runs.py\n?? ml_offline_train.py\n?? ml_ohlcv_token_embedding_transformer.py\n?? ml_price_diff_runs.py\n?? ml_regression_second_stage.py\n?? ml_regression_target_sweep.py\n?? ml_transformer_sequence_runs.py\n?? ml_worldquant_alpha_runs.py\n?? trailing_stop_bot.py",
   "code_hashes_sha256": {
     "ml_semiconductor_sector_model.py": "08f8df95aa9bb0568c16eb6bdcdb84937cb0216928880680ee637dba6fd0c9b4",
     "ml_semiconductor_walkforward_compare.py": "245b71301d632f0bd11692ae540c87ab64215fd9827f00db6a99eae0dd213d20",
