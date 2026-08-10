@@ -1,0 +1,825 @@
+{
+  "created_at_utc": "2026-08-10T22:35:16.608344+00:00",
+  "research_only": true,
+  "active_models_modified": false,
+  "comparison_design": {
+    "single_change": "SOXX regime rule variants versus the close-above-MA200 baseline",
+    "model": "HGB excluding the frozen momentum-like features",
+    "training": "60% initial chronological train, monthly expanding walk-forward refits",
+    "execution": "after-close signal, next-session execution assumption",
+    "costs_bps": 5,
+    "factor_alpha_controls": [
+      "SOXX daily return",
+      "top-10 60-day momentum daily return"
+    ],
+    "newey_west_lag": "equal to horizon_days",
+    "data_endpoints": {
+      "3": "2026-07-27",
+      "5": "2026-07-23"
+    }
+  },
+  "model_copy_manifest": {
+    "copy_type": "physical_independent_files",
+    "selector_model": "unchanged copied HistGradientBoostingRegressor",
+    "variant_change": "SOXX regime moving-average window: 200 sessions -> isolated 100/300-session variants",
+    "trading_integration": "none",
+    "copies": [
+      {
+        "horizon_days": 3,
+        "moving_average_days": 100,
+        "files": [
+          {
+            "source": "/Users/austinlilyx1/Documents/quant/models/semiconductor_fixed_weight/hgb_3d/model.joblib",
+            "copy": "/Users/austinlilyx1/Documents/quant/semiconductor_100d_filter/models/hgb_3d_100d_filter/model.joblib",
+            "source_sha256": "5c66311312d60ef1ab581f4496463a43388ebebc5024c8ccb219dab7a94feebf",
+            "copy_sha256": "5c66311312d60ef1ab581f4496463a43388ebebc5024c8ccb219dab7a94feebf",
+            "copy_is_symlink": false
+          },
+          {
+            "source": "/Users/austinlilyx1/Documents/quant/models/semiconductor_fixed_weight/hgb_3d/metadata.json",
+            "copy": "/Users/austinlilyx1/Documents/quant/semiconductor_100d_filter/models/hgb_3d_100d_filter/source_metadata.json",
+            "source_sha256": "bd6f9fa92b532e27eb559684855452320e0acf2ec82cf990c2d7d9f0b793334a",
+            "copy_sha256": "bd6f9fa92b532e27eb559684855452320e0acf2ec82cf990c2d7d9f0b793334a",
+            "copy_is_symlink": false
+          }
+        ]
+      },
+      {
+        "horizon_days": 5,
+        "moving_average_days": 100,
+        "files": [
+          {
+            "source": "/Users/austinlilyx1/Documents/quant/models/semiconductor_fixed_weight/hgb_5d/model.joblib",
+            "copy": "/Users/austinlilyx1/Documents/quant/semiconductor_100d_filter/models/hgb_5d_100d_filter/model.joblib",
+            "source_sha256": "5247158eaeff1d9689fd40846794938248cea7ec7e5859435dc06d2894c8a250",
+            "copy_sha256": "5247158eaeff1d9689fd40846794938248cea7ec7e5859435dc06d2894c8a250",
+            "copy_is_symlink": false
+          },
+          {
+            "source": "/Users/austinlilyx1/Documents/quant/models/semiconductor_fixed_weight/hgb_5d/metadata.json",
+            "copy": "/Users/austinlilyx1/Documents/quant/semiconductor_100d_filter/models/hgb_5d_100d_filter/source_metadata.json",
+            "source_sha256": "a2a61fe27c2eac883409789f3a8057598f4fcb4f09854fe078e1cb16cab2ea44",
+            "copy_sha256": "a2a61fe27c2eac883409789f3a8057598f4fcb4f09854fe078e1cb16cab2ea44",
+            "copy_is_symlink": false
+          }
+        ]
+      },
+      {
+        "horizon_days": 3,
+        "moving_average_days": 300,
+        "files": [
+          {
+            "source": "/Users/austinlilyx1/Documents/quant/models/semiconductor_fixed_weight/hgb_3d/model.joblib",
+            "copy": "/Users/austinlilyx1/Documents/quant/semiconductor_100d_filter/models/hgb_3d_300d_filter/model.joblib",
+            "source_sha256": "5c66311312d60ef1ab581f4496463a43388ebebc5024c8ccb219dab7a94feebf",
+            "copy_sha256": "5c66311312d60ef1ab581f4496463a43388ebebc5024c8ccb219dab7a94feebf",
+            "copy_is_symlink": false
+          },
+          {
+            "source": "/Users/austinlilyx1/Documents/quant/models/semiconductor_fixed_weight/hgb_3d/metadata.json",
+            "copy": "/Users/austinlilyx1/Documents/quant/semiconductor_100d_filter/models/hgb_3d_300d_filter/source_metadata.json",
+            "source_sha256": "bd6f9fa92b532e27eb559684855452320e0acf2ec82cf990c2d7d9f0b793334a",
+            "copy_sha256": "bd6f9fa92b532e27eb559684855452320e0acf2ec82cf990c2d7d9f0b793334a",
+            "copy_is_symlink": false
+          }
+        ]
+      },
+      {
+        "horizon_days": 5,
+        "moving_average_days": 300,
+        "files": [
+          {
+            "source": "/Users/austinlilyx1/Documents/quant/models/semiconductor_fixed_weight/hgb_5d/model.joblib",
+            "copy": "/Users/austinlilyx1/Documents/quant/semiconductor_100d_filter/models/hgb_5d_300d_filter/model.joblib",
+            "source_sha256": "5247158eaeff1d9689fd40846794938248cea7ec7e5859435dc06d2894c8a250",
+            "copy_sha256": "5247158eaeff1d9689fd40846794938248cea7ec7e5859435dc06d2894c8a250",
+            "copy_is_symlink": false
+          },
+          {
+            "source": "/Users/austinlilyx1/Documents/quant/models/semiconductor_fixed_weight/hgb_5d/metadata.json",
+            "copy": "/Users/austinlilyx1/Documents/quant/semiconductor_100d_filter/models/hgb_5d_300d_filter/source_metadata.json",
+            "source_sha256": "a2a61fe27c2eac883409789f3a8057598f4fcb4f09854fe078e1cb16cab2ea44",
+            "copy_sha256": "a2a61fe27c2eac883409789f3a8057598f4fcb4f09854fe078e1cb16cab2ea44",
+            "copy_is_symlink": false
+          }
+        ]
+      }
+    ]
+  },
+  "results": [
+    {
+      "horizon_days": 3,
+      "rows": 35927,
+      "feature_matrix_count": 62,
+      "selection_feature_count": 18,
+      "oos_rows": 14400,
+      "oos_dates": 400,
+      "oos_start": "2024-12-18",
+      "oos_end": "2026-07-27",
+      "portfolio_rules": {
+        "top_n": 10,
+        "buy_rank_pct": 0.25,
+        "sell_rank_pct": 0.5,
+        "max_weight": 0.1,
+        "no_trade_band": 0.01,
+        "rebalance_every_days": 3,
+        "transaction_cost_bps": 5.0,
+        "min_predicted_return": 0.0
+      },
+      "variants": {
+        "soxx_100d_filter": {
+          "strategy": {
+            "total_return": 1.8435641808336207,
+            "annual_return": 0.9348635261862861,
+            "annual_volatility": 0.4462397517535353,
+            "sharpe_like": 2.0949803833313014,
+            "max_drawdown": -0.24276220632084666,
+            "days": 399,
+            "avg_exposure": 0.7781954887218046,
+            "avg_turnover": 0.1669172932330827
+          },
+          "matching_filtered_equal_weight": {
+            "total_return": 1.092562553526263,
+            "annual_return": 0.594166789626988,
+            "annual_volatility": 0.36083882806323214,
+            "sharpe_like": 1.6466265363295889,
+            "max_drawdown": -0.23579730794233644,
+            "days": 399,
+            "avg_exposure": 0.7819548872180451,
+            "avg_turnover": 0.022556390977443608
+          },
+          "ordinary_factor_alpha": {
+            "active_metrics_vs_equal_weight": {
+              "total_return": 0.4076472588387785,
+              "annual_return": 0.24103943707526998,
+              "annual_volatility": 0.15952416836380856,
+              "sharpe_like": 1.510990087254734,
+              "max_drawdown": -0.126380580931162,
+              "days": 399
+            },
+            "tracking_error": 0.15952416836380856,
+            "information_ratio": 1.510990087254734,
+            "ols_daily_alpha": 0.0008436175907803663,
+            "ols_annualized_alpha_simple": 0.2125916328766523,
+            "ols_alpha_t_stat": 1.240392838893596,
+            "beta_soxx": -0.15273063419190835,
+            "beta_momentum": 0.8732108851869106,
+            "observations": 399
+          },
+          "newey_west_factor_alpha": {
+            "lag": 3,
+            "daily_alpha": 0.0008436175907803663,
+            "annualized_alpha_simple": 0.2125916328766523,
+            "alpha_hac_standard_error": 0.000677513576007927,
+            "alpha_hac_t_stat": 1.2451670647711062,
+            "beta_soxx": -0.15273063419190835,
+            "beta_momentum": 0.8732108851869106,
+            "observations": 399
+          }
+        },
+        "soxx_200d_baseline": {
+          "strategy": {
+            "total_return": 2.749344462857279,
+            "annual_return": 1.3040829532201141,
+            "annual_volatility": 0.44248919400679476,
+            "sharpe_like": 2.9471520906792787,
+            "max_drawdown": -0.23833750442650392,
+            "days": 399,
+            "avg_exposure": 0.7285714285714285,
+            "avg_turnover": 0.14837092731829574
+          },
+          "matching_filtered_equal_weight": {
+            "total_return": 1.3967413589477506,
+            "annual_return": 0.7368437057248778,
+            "annual_volatility": 0.3573642466360354,
+            "sharpe_like": 2.06188423341446,
+            "max_drawdown": -0.23579730794233678,
+            "days": 399,
+            "avg_exposure": 0.7293233082706767,
+            "avg_turnover": 0.012531328320802004
+          },
+          "ordinary_factor_alpha": {
+            "active_metrics_vs_equal_weight": {
+              "total_return": 0.6205627665993096,
+              "annual_return": 0.356502320280234,
+              "annual_volatility": 0.15707133426186282,
+              "sharpe_like": 2.269684165831864,
+              "max_drawdown": -0.06268625115352089,
+              "days": 399
+            },
+            "tracking_error": 0.15707133426186282,
+            "information_ratio": 2.269684165831864,
+            "ols_daily_alpha": 0.0015602571348931075,
+            "ols_annualized_alpha_simple": 0.3931847979930631,
+            "ols_alpha_t_stat": 2.3144152052860814,
+            "beta_soxx": -0.1739148040853942,
+            "beta_momentum": 0.8818275428892715,
+            "observations": 399
+          },
+          "newey_west_factor_alpha": {
+            "lag": 3,
+            "daily_alpha": 0.0015602571348931075,
+            "annualized_alpha_simple": 0.3931847979930631,
+            "alpha_hac_standard_error": 0.0006528106920149069,
+            "alpha_hac_t_stat": 2.3900606316317488,
+            "beta_soxx": -0.1739148040853942,
+            "beta_momentum": 0.8818275428892715,
+            "observations": 399
+          }
+        },
+        "soxx_200d_minus10pct_filter": {
+          "strategy": {
+            "total_return": 2.9121958389856446,
+            "annual_return": 1.3667935149185664,
+            "annual_volatility": 0.4704248077509117,
+            "sharpe_like": 2.9054452324765125,
+            "max_drawdown": -0.23833750442650414,
+            "days": 399,
+            "avg_exposure": 0.8894736842105263,
+            "avg_turnover": 0.18746867167919803
+          },
+          "matching_filtered_equal_weight": {
+            "total_return": 1.5995397340301931,
+            "annual_return": 0.828268048726428,
+            "annual_volatility": 0.3825177444243331,
+            "sharpe_like": 2.165306213370371,
+            "max_drawdown": -0.23579730794233633,
+            "days": 399,
+            "avg_exposure": 0.8947368421052632,
+            "avg_turnover": 0.012531328320802004
+          },
+          "ordinary_factor_alpha": {
+            "active_metrics_vs_equal_weight": {
+              "total_return": 0.5644766705632893,
+              "annual_return": 0.32665936200575185,
+              "annual_volatility": 0.16561893265300429,
+              "sharpe_like": 1.9723551937757662,
+              "max_drawdown": -0.0895725878062108,
+              "days": 399
+            },
+            "tracking_error": 0.16561893265300429,
+            "information_ratio": 1.9723551937757662,
+            "ols_daily_alpha": 0.001459686237164485,
+            "ols_annualized_alpha_simple": 0.36784093176545024,
+            "ols_alpha_t_stat": 2.2372240424667362,
+            "beta_soxx": -0.04601687436177213,
+            "beta_momentum": 0.8579597755958129,
+            "observations": 399
+          },
+          "newey_west_factor_alpha": {
+            "lag": 3,
+            "daily_alpha": 0.001459686237164485,
+            "annualized_alpha_simple": 0.36784093176545024,
+            "alpha_hac_standard_error": 0.0006013529722569112,
+            "alpha_hac_t_stat": 2.4273368628847067,
+            "beta_soxx": -0.04601687436177213,
+            "beta_momentum": 0.8579597755958129,
+            "observations": 399
+          }
+        },
+        "soxx_200d_plus20pct_filter": {
+          "strategy": {
+            "total_return": 1.1687604150436979,
+            "annual_return": 0.6305876713922853,
+            "annual_volatility": 0.37947645584463097,
+            "sharpe_like": 1.6617306862654657,
+            "max_drawdown": -0.2383375044265036,
+            "days": 399,
+            "avg_exposure": 0.46616541353383456,
+            "avg_turnover": 0.08872180451127822
+          },
+          "matching_filtered_equal_weight": {
+            "total_return": 0.5299340289592129,
+            "annual_return": 0.308083273104538,
+            "annual_volatility": 0.31202247757594237,
+            "sharpe_like": 0.9873752541739701,
+            "max_drawdown": -0.23579730794233666,
+            "days": 399,
+            "avg_exposure": 0.46616541353383456,
+            "avg_turnover": 0.017543859649122806
+          },
+          "ordinary_factor_alpha": {
+            "active_metrics_vs_equal_weight": {
+              "total_return": 0.4509691916312797,
+              "annual_return": 0.265027335787986,
+              "annual_volatility": 0.13198907551667105,
+              "sharpe_like": 2.0079490272246914,
+              "max_drawdown": -0.05873494590030892,
+              "days": 399
+            },
+            "tracking_error": 0.13198907551667105,
+            "information_ratio": 2.0079490272246914,
+            "ols_daily_alpha": 0.0006150425911974639,
+            "ols_annualized_alpha_simple": 0.15499073298176091,
+            "ols_alpha_t_stat": 0.7740400511458905,
+            "beta_soxx": -0.051455483953464734,
+            "beta_momentum": 0.5933766348130393,
+            "observations": 399
+          },
+          "newey_west_factor_alpha": {
+            "lag": 3,
+            "daily_alpha": 0.0006150425911974639,
+            "annualized_alpha_simple": 0.15499073298176091,
+            "alpha_hac_standard_error": 0.0007817701778347494,
+            "alpha_hac_t_stat": 0.7867306897033768,
+            "beta_soxx": -0.051455483953464734,
+            "beta_momentum": 0.5933766348130393,
+            "observations": 399
+          }
+        },
+        "soxx_200d_plus40pct_filter": {
+          "strategy": {
+            "total_return": -0.053369793805279175,
+            "annual_return": -0.03404695516365619,
+            "annual_volatility": 0.2816700431476768,
+            "sharpe_like": -0.12087531490100888,
+            "max_drawdown": -0.2957407434947098,
+            "days": 399,
+            "avg_exposure": 0.15037593984962405,
+            "avg_turnover": 0.023057644110275687
+          },
+          "matching_filtered_equal_weight": {
+            "total_return": -0.058246919996154944,
+            "annual_return": -0.03719311111396184,
+            "annual_volatility": 0.23335225918133126,
+            "sharpe_like": -0.15938611969923186,
+            "max_drawdown": -0.2824088149841446,
+            "days": 399,
+            "avg_exposure": 0.15037593984962405,
+            "avg_turnover": 0.007518796992481203
+          },
+          "ordinary_factor_alpha": {
+            "active_metrics_vs_equal_weight": {
+              "total_return": 0.017952397372684725,
+              "annual_return": 0.011301163882393883,
+              "annual_volatility": 0.09468542864486958,
+              "sharpe_like": 0.11935483679099576,
+              "max_drawdown": -0.07350721742999866,
+              "days": 399
+            },
+            "tracking_error": 0.09468542864486958,
+            "information_ratio": 0.11935483679099576,
+            "ols_daily_alpha": -0.0008889053530084093,
+            "ols_annualized_alpha_simple": -0.22400414895811915,
+            "ols_alpha_t_stat": -1.1874798034868028,
+            "beta_soxx": 0.08842287965779079,
+            "beta_momentum": 0.23210507986992593,
+            "observations": 399
+          },
+          "newey_west_factor_alpha": {
+            "lag": 3,
+            "daily_alpha": -0.0008889053530084093,
+            "annualized_alpha_simple": -0.22400414895811915,
+            "alpha_hac_standard_error": 0.0007015996658097808,
+            "alpha_hac_t_stat": -1.2669694646767566,
+            "beta_soxx": 0.08842287965779079,
+            "beta_momentum": 0.23210507986992593,
+            "observations": 399
+          }
+        },
+        "soxx_300d_filter": {
+          "strategy": {
+            "total_return": 2.4970826809079947,
+            "annual_return": 1.2049218451753556,
+            "annual_volatility": 0.45343280770818767,
+            "sharpe_like": 2.6573327396962374,
+            "max_drawdown": -0.2383375044265037,
+            "days": 399,
+            "avg_exposure": 0.7962406015037594,
+            "avg_turnover": 0.16541353383458646
+          },
+          "matching_filtered_equal_weight": {
+            "total_return": 1.4463326269022918,
+            "annual_return": 0.7594552088554847,
+            "annual_volatility": 0.36450164593935336,
+            "sharpe_like": 2.083543976593852,
+            "max_drawdown": -0.2357973079423369,
+            "days": 399,
+            "avg_exposure": 0.7969924812030075,
+            "avg_turnover": 0.017543859649122806
+          },
+          "ordinary_factor_alpha": {
+            "active_metrics_vs_equal_weight": {
+              "total_return": 0.48463340159019164,
+              "annual_return": 0.28348586703302403,
+              "annual_volatility": 0.16195268539628632,
+              "sharpe_like": 1.7504239978445244,
+              "max_drawdown": -0.13603636839176514,
+              "days": 399
+            },
+            "tracking_error": 0.16195268539628632,
+            "information_ratio": 1.7504239978445244,
+            "ols_daily_alpha": 0.0013098311772582443,
+            "ols_annualized_alpha_simple": 0.33007745666907756,
+            "ols_alpha_t_stat": 1.987576717074631,
+            "beta_soxx": -0.15423296061286512,
+            "beta_momentum": 0.8970781993960224,
+            "observations": 399
+          },
+          "newey_west_factor_alpha": {
+            "lag": 3,
+            "daily_alpha": 0.0013098311772582443,
+            "annualized_alpha_simple": 0.33007745666907756,
+            "alpha_hac_standard_error": 0.0006357962664268704,
+            "alpha_hac_t_stat": 2.0601429206550743,
+            "beta_soxx": -0.15423296061286512,
+            "beta_momentum": 0.8970781993960224,
+            "observations": 399
+          }
+        }
+      },
+      "delta_100d_minus_200d": {
+        "total_return": -0.9057802820236582,
+        "annual_return": -0.36921942703382804,
+        "sharpe_like": -0.8521717073479773,
+        "max_drawdown": -0.004424701894342742,
+        "annualized_hac_alpha": -0.1805931651164108
+      },
+      "delta_300d_minus_200d": {
+        "total_return": -0.2522617819492843,
+        "annual_return": -0.09916110804475853,
+        "sharpe_like": -0.28981935098304135,
+        "max_drawdown": 2.220446049250313e-16,
+        "annualized_hac_alpha": -0.06310734132398554
+      },
+      "delta_200d_plus20pct_minus_200d": {
+        "total_return": -1.580584047813581,
+        "annual_return": -0.6734952818278288,
+        "sharpe_like": -1.285421404413813,
+        "max_drawdown": 3.3306690738754696e-16,
+        "annualized_hac_alpha": -0.2381940650113022
+      },
+      "delta_200d_minus10pct_minus_200d": {
+        "total_return": 0.16285137612836564,
+        "annual_return": 0.06271056169845224,
+        "sharpe_like": -0.041706858202766206,
+        "max_drawdown": -2.220446049250313e-16,
+        "annualized_hac_alpha": -0.025343866227612866
+      },
+      "delta_200d_plus40pct_minus_200d": {
+        "total_return": -2.8027142566625582,
+        "annual_return": -1.3381299083837703,
+        "sharpe_like": -3.0680274055802874,
+        "max_drawdown": -0.05740323906820588,
+        "annualized_hac_alpha": -0.6171889469511822
+      }
+    },
+    {
+      "horizon_days": 5,
+      "rows": 35855,
+      "feature_matrix_count": 62,
+      "selection_feature_count": 18,
+      "oos_rows": 14400,
+      "oos_dates": 400,
+      "oos_start": "2024-12-16",
+      "oos_end": "2026-07-23",
+      "portfolio_rules": {
+        "top_n": 10,
+        "buy_rank_pct": 0.25,
+        "sell_rank_pct": 0.5,
+        "max_weight": 0.1,
+        "no_trade_band": 0.01,
+        "rebalance_every_days": 5,
+        "transaction_cost_bps": 5.0,
+        "min_predicted_return": 0.0
+      },
+      "variants": {
+        "soxx_100d_filter": {
+          "strategy": {
+            "total_return": 2.182441266183954,
+            "annual_return": 1.0774610139146503,
+            "annual_volatility": 0.4191925108098292,
+            "sharpe_like": 2.57032505622089,
+            "max_drawdown": -0.2466585263180302,
+            "days": 399,
+            "avg_exposure": 0.7706766917293233,
+            "avg_turnover": 0.10325814536340854
+          },
+          "matching_filtered_equal_weight": {
+            "total_return": 1.3675800265016185,
+            "annual_return": 0.7234669035764849,
+            "annual_volatility": 0.35839289409098485,
+            "sharpe_like": 2.0186418746148997,
+            "max_drawdown": -0.2220062904089375,
+            "days": 399,
+            "avg_exposure": 0.7869674185463659,
+            "avg_turnover": 0.017543859649122806
+          },
+          "ordinary_factor_alpha": {
+            "active_metrics_vs_equal_weight": {
+              "total_return": 0.3708854625163862,
+              "annual_return": 0.2204698503383189,
+              "annual_volatility": 0.15193312825499086,
+              "sharpe_like": 1.4510979459878044,
+              "max_drawdown": -0.06771038881749603,
+              "days": 399
+            },
+            "tracking_error": 0.15193312825499086,
+            "information_ratio": 1.4510979459878044,
+            "ols_daily_alpha": 0.001228864682406277,
+            "ols_annualized_alpha_simple": 0.3096738999663818,
+            "ols_alpha_t_stat": 1.8212124859475383,
+            "beta_soxx": -0.05792029580537565,
+            "beta_momentum": 0.7498549879607086,
+            "observations": 399
+          },
+          "newey_west_factor_alpha": {
+            "lag": 5,
+            "daily_alpha": 0.001228864682406277,
+            "annualized_alpha_simple": 0.3096738999663818,
+            "alpha_hac_standard_error": 0.0006708854713479162,
+            "alpha_hac_t_stat": 1.831705611297993,
+            "beta_soxx": -0.05792029580537565,
+            "beta_momentum": 0.7498549879607086,
+            "observations": 399
+          }
+        },
+        "soxx_200d_baseline": {
+          "strategy": {
+            "total_return": 2.673477764937199,
+            "annual_return": 1.2745264904482911,
+            "annual_volatility": 0.41934835484648403,
+            "sharpe_like": 3.039302469458531,
+            "max_drawdown": -0.24665852631803065,
+            "days": 399,
+            "avg_exposure": 0.7406015037593985,
+            "avg_turnover": 0.09373433583959902
+          },
+          "matching_filtered_equal_weight": {
+            "total_return": 1.5864347973562531,
+            "annual_return": 0.8224415181246563,
+            "annual_volatility": 0.35669510778581925,
+            "sharpe_like": 2.305726936458289,
+            "max_drawdown": -0.22200629040893716,
+            "days": 399,
+            "avg_exposure": 0.7493734335839599,
+            "avg_turnover": 0.017543859649122806
+          },
+          "ordinary_factor_alpha": {
+            "active_metrics_vs_equal_weight": {
+              "total_return": 0.44959962761729644,
+              "annual_return": 0.26427306508486814,
+              "annual_volatility": 0.15379965899760145,
+              "sharpe_like": 1.7182942199435536,
+              "max_drawdown": -0.06771038881749614,
+              "days": 399
+            },
+            "tracking_error": 0.15379965899760145,
+            "information_ratio": 1.7182942199435536,
+            "ols_daily_alpha": 0.001595884582233622,
+            "ols_annualized_alpha_simple": 0.40216291472287274,
+            "ols_alpha_t_stat": 2.3644974895970163,
+            "beta_soxx": -0.07213225521207699,
+            "beta_momentum": 0.7603844491546468,
+            "observations": 399
+          },
+          "newey_west_factor_alpha": {
+            "lag": 5,
+            "daily_alpha": 0.001595884582233622,
+            "annualized_alpha_simple": 0.40216291472287274,
+            "alpha_hac_standard_error": 0.0006079894538153229,
+            "alpha_hac_t_stat": 2.624855698102903,
+            "beta_soxx": -0.07213225521207699,
+            "beta_momentum": 0.7603844491546468,
+            "observations": 399
+          }
+        },
+        "soxx_200d_minus10pct_filter": {
+          "strategy": {
+            "total_return": 1.9396067432771549,
+            "annual_return": 0.9758848079841265,
+            "annual_volatility": 0.4401798318449641,
+            "sharpe_like": 2.2170139051891935,
+            "max_drawdown": -0.29654523940906463,
+            "days": 399,
+            "avg_exposure": 0.8834586466165414,
+            "avg_turnover": 0.11478696741854638
+          },
+          "matching_filtered_equal_weight": {
+            "total_return": 1.2909715503328476,
+            "annual_return": 0.6880327206225629,
+            "annual_volatility": 0.37738238768837995,
+            "sharpe_like": 1.8231712530016098,
+            "max_drawdown": -0.26591720781807515,
+            "days": 399,
+            "avg_exposure": 0.899749373433584,
+            "avg_turnover": 0.012531328320802004
+          },
+          "ordinary_factor_alpha": {
+            "active_metrics_vs_equal_weight": {
+              "total_return": 0.3098741923279149,
+              "annual_return": 0.18587725183129122,
+              "annual_volatility": 0.16069657743833735,
+              "sharpe_like": 1.1566970174123106,
+              "max_drawdown": -0.10422038434916736,
+              "days": 399
+            },
+            "tracking_error": 0.16069657743833735,
+            "information_ratio": 1.1566970174123106,
+            "ols_daily_alpha": 0.0008699578234292856,
+            "ols_annualized_alpha_simple": 0.21922937150417995,
+            "ols_alpha_t_stat": 1.3575857392233532,
+            "beta_soxx": -0.004522798445795887,
+            "beta_momentum": 0.7693182708582008,
+            "observations": 399
+          },
+          "newey_west_factor_alpha": {
+            "lag": 5,
+            "daily_alpha": 0.0008699578234292856,
+            "annualized_alpha_simple": 0.21922937150417995,
+            "alpha_hac_standard_error": 0.0005616644420757583,
+            "alpha_hac_t_stat": 1.5488924672072157,
+            "beta_soxx": -0.004522798445795887,
+            "beta_momentum": 0.7693182708582008,
+            "observations": 399
+          }
+        },
+        "soxx_200d_plus20pct_filter": {
+          "strategy": {
+            "total_return": 1.342391217328625,
+            "annual_return": 0.7118634299689484,
+            "annual_volatility": 0.3783649129526755,
+            "sharpe_like": 1.8814203051063185,
+            "max_drawdown": -0.24665852631803042,
+            "days": 399,
+            "avg_exposure": 0.4573934837092732,
+            "avg_turnover": 0.05162907268170427
+          },
+          "matching_filtered_equal_weight": {
+            "total_return": 0.740179544244747,
+            "annual_return": 0.41890769075130785,
+            "annual_volatility": 0.31136053051246326,
+            "sharpe_like": 1.3454103834607247,
+            "max_drawdown": -0.22200629040893716,
+            "days": 399,
+            "avg_exposure": 0.46115288220551376,
+            "avg_turnover": 0.007518796992481203
+          },
+          "ordinary_factor_alpha": {
+            "active_metrics_vs_equal_weight": {
+              "total_return": 0.3760470278676278,
+              "annual_return": 0.22337009178845735,
+              "annual_volatility": 0.1363190713641902,
+              "sharpe_like": 1.6385828450349516,
+              "max_drawdown": -0.06771038881749603,
+              "days": 399
+            },
+            "tracking_error": 0.1363190713641902,
+            "information_ratio": 1.6385828450349516,
+            "ols_daily_alpha": 0.0008098429640010502,
+            "ols_annualized_alpha_simple": 0.20408042692826464,
+            "ols_alpha_t_stat": 1.0209952705535932,
+            "beta_soxx": -0.012300181411189349,
+            "beta_momentum": 0.5655794951051121,
+            "observations": 399
+          },
+          "newey_west_factor_alpha": {
+            "lag": 5,
+            "daily_alpha": 0.0008098429640010502,
+            "annualized_alpha_simple": 0.20408042692826464,
+            "alpha_hac_standard_error": 0.0007373401760194456,
+            "alpha_hac_t_stat": 1.098330174239268,
+            "beta_soxx": -0.012300181411189349,
+            "beta_momentum": 0.5655794951051121,
+            "observations": 399
+          }
+        },
+        "soxx_200d_plus40pct_filter": {
+          "strategy": {
+            "total_return": 0.1089418666225177,
+            "annual_return": 0.06748907739557297,
+            "annual_volatility": 0.2770814413349579,
+            "sharpe_like": 0.24357126579974317,
+            "max_drawdown": -0.2470351970548713,
+            "days": 399,
+            "avg_exposure": 0.13784461152882205,
+            "avg_turnover": 0.016541353383458645
+          },
+          "matching_filtered_equal_weight": {
+            "total_return": 0.0917125046097258,
+            "annual_return": 0.0569839443499609,
+            "annual_volatility": 0.2262212745864994,
+            "sharpe_like": 0.251894718806264,
+            "max_drawdown": -0.22239528726373237,
+            "days": 399,
+            "avg_exposure": 0.13784461152882205,
+            "avg_turnover": 0.005012531328320802
+          },
+          "ordinary_factor_alpha": {
+            "active_metrics_vs_equal_weight": {
+              "total_return": 0.029042828009440136,
+              "annual_return": 0.0182459827680026,
+              "annual_volatility": 0.09592108582717988,
+              "sharpe_like": 0.1902186845640615,
+              "max_drawdown": -0.06771038881749625,
+              "days": 399
+            },
+            "tracking_error": 0.09592108582717988,
+            "information_ratio": 0.1902186845640615,
+            "ols_daily_alpha": -0.00045622671171032463,
+            "ols_annualized_alpha_simple": -0.11496913135100181,
+            "ols_alpha_t_stat": -0.6111351199473136,
+            "beta_soxx": 0.09597075139370426,
+            "beta_momentum": 0.2133188634359326,
+            "observations": 399
+          },
+          "newey_west_factor_alpha": {
+            "lag": 5,
+            "daily_alpha": -0.00045622671171032463,
+            "annualized_alpha_simple": -0.11496913135100181,
+            "alpha_hac_standard_error": 0.0006370409036715688,
+            "alpha_hac_t_stat": -0.7161654912280729,
+            "beta_soxx": 0.09597075139370426,
+            "beta_momentum": 0.2133188634359326,
+            "observations": 399
+          }
+        },
+        "soxx_300d_filter": {
+          "strategy": {
+            "total_return": 2.495822673168696,
+            "annual_return": 1.2044200609708358,
+            "annual_volatility": 0.4238430601346545,
+            "sharpe_like": 2.8416651686786913,
+            "max_drawdown": -0.2466585263180303,
+            "days": 399,
+            "avg_exposure": 0.7807017543859649,
+            "avg_turnover": 0.09874686716791979
+          },
+          "matching_filtered_equal_weight": {
+            "total_return": 1.593730499616759,
+            "annual_return": 0.8256865680260475,
+            "annual_volatility": 0.36213170674489115,
+            "sharpe_like": 2.280072561024639,
+            "max_drawdown": -0.22200629040893716,
+            "days": 399,
+            "avg_exposure": 0.7869674185463659,
+            "avg_turnover": 0.012531328320802004
+          },
+          "ordinary_factor_alpha": {
+            "active_metrics_vs_equal_weight": {
+              "total_return": 0.3753722041139629,
+              "annual_return": 0.22299114186031166,
+              "annual_volatility": 0.1538369296797488,
+              "sharpe_like": 1.449529331640492,
+              "max_drawdown": -0.06771038881749636,
+              "days": 399
+            },
+            "tracking_error": 0.1538369296797488,
+            "information_ratio": 1.449529331640492,
+            "ols_daily_alpha": 0.0014189755906104248,
+            "ols_annualized_alpha_simple": 0.35758184883382704,
+            "ols_alpha_t_stat": 2.1885787471612588,
+            "beta_soxx": -0.0653373263417951,
+            "beta_momentum": 0.7749480846130453,
+            "observations": 399
+          },
+          "newey_west_factor_alpha": {
+            "lag": 5,
+            "daily_alpha": 0.0014189755906104248,
+            "annualized_alpha_simple": 0.35758184883382704,
+            "alpha_hac_standard_error": 0.0005694385449785756,
+            "alpha_hac_t_stat": 2.491885389781283,
+            "beta_soxx": -0.0653373263417951,
+            "beta_momentum": 0.7749480846130453,
+            "observations": 399
+          }
+        }
+      },
+      "delta_100d_minus_200d": {
+        "total_return": -0.4910364987532452,
+        "annual_return": -0.19706547653364082,
+        "sharpe_like": -0.46897741323764075,
+        "max_drawdown": 4.440892098500626e-16,
+        "annualized_hac_alpha": -0.09248901475649096
+      },
+      "delta_300d_minus_200d": {
+        "total_return": -0.17765509176850314,
+        "annual_return": -0.07010642947745538,
+        "sharpe_like": -0.19763730077983954,
+        "max_drawdown": 3.3306690738754696e-16,
+        "annualized_hac_alpha": -0.0445810658890457
+      },
+      "delta_200d_plus20pct_minus_200d": {
+        "total_return": -1.331086547608574,
+        "annual_return": -0.5626630604793428,
+        "sharpe_like": -1.1578821643522124,
+        "max_drawdown": 2.220446049250313e-16,
+        "annualized_hac_alpha": -0.1980824877946081
+      },
+      "delta_200d_minus10pct_minus_200d": {
+        "total_return": -0.7338710216600441,
+        "annual_return": -0.29864168246416467,
+        "sharpe_like": -0.8222885642693374,
+        "max_drawdown": -0.049886713091033985,
+        "annualized_hac_alpha": -0.1829335432186928
+      },
+      "delta_200d_plus40pct_minus_200d": {
+        "total_return": -2.5645358983146815,
+        "annual_return": -1.2070374130527182,
+        "sharpe_like": -2.7957312036587876,
+        "max_drawdown": -0.00037667073684066743,
+        "annualized_hac_alpha": -0.5171320460738745
+      }
+    }
+  ]
+}

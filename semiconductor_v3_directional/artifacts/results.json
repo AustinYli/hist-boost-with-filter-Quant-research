@@ -1,0 +1,591 @@
+{
+  "project": "semiconductor_v3_direction_plus_selection",
+  "research_only": true,
+  "trading_integration": false,
+  "specification": {
+    "project": "semiconductor_v3_direction_plus_selection",
+    "research_only": true,
+    "trading_integration": false,
+    "hypothesis_locked_at": "2026-08-08",
+    "hypothesis": {
+      "direction_positive": "long the 10 stocks with highest predicted SOXX-relative 5-session return",
+      "direction_negative": "short the 10 stocks with lowest predicted SOXX-relative 5-session return",
+      "neutral_state": false,
+      "gross_exposure": 1.0,
+      "single_name_weight": 0.1
+    },
+    "data": {
+      "stock_bars": "semiconductor_v3_directional/data/stock_bars.csv",
+      "market_bars": "semiconductor_v3_directional/data/market_bars.csv",
+      "universe_membership": "semiconductor_v3_directional/data/universe_membership.csv",
+      "borrow_costs": "semiconductor_v3_directional/data/borrow_costs.csv",
+      "required_market_symbols": [
+        "SOXX",
+        "SPY",
+        "QQQ"
+      ],
+      "desired_start_date": "2001-01-02",
+      "historical_oos_start": "2007-01-03",
+      "research_label_cutoff": "2026-07-31",
+      "adjustment": "split",
+      "require_point_in_time_universe": true,
+      "require_delisting_handling": true,
+      "require_historical_borrow_data_for_confirmatory_short_results": true
+    },
+    "universe": {
+      "industry": "Semiconductors & Semiconductor Equipment",
+      "security_type": "common_equity",
+      "us_listed": true,
+      "minimum_history_sessions": 252,
+      "minimum_price": 5.0,
+      "liquidity_window_sessions": 60,
+      "minimum_median_dollar_volume": 20000000.0,
+      "maximum_names": 50,
+      "minimum_names_to_trade": 20
+    },
+    "execution": {
+      "horizon_sessions": 5,
+      "signal_time": "after_close_t",
+      "entry_time": "open_t_plus_1",
+      "exit_time": "open_t_plus_6",
+      "decision_grid_every_sessions": 5,
+      "decision_grid_anchor_date": "2026-08-10",
+      "label_embargo": "label_exit_date <= current_signal_date",
+      "overlapping_labels": false
+    },
+    "direction_features": [
+      "soxx_return_5d",
+      "soxx_return_20d",
+      "soxx_return_60d",
+      "soxx_distance_ma_20",
+      "soxx_distance_ma_50",
+      "soxx_distance_ma_200",
+      "soxx_volatility_10d",
+      "soxx_volatility_20d",
+      "soxx_volatility_60d",
+      "soxx_drawdown_60d",
+      "soxx_relative_volume_20d",
+      "spy_return_20d",
+      "spy_return_60d",
+      "qqq_return_20d",
+      "qqq_return_60d",
+      "sector_breadth_positive_20d",
+      "sector_breadth_above_ma_60",
+      "sector_median_return_1d",
+      "sector_median_return_20d",
+      "sector_dispersion_1d",
+      "sector_dispersion_20d"
+    ],
+    "selection_features": [
+      "volatility_20d",
+      "volatility_60d",
+      "atr_20_pct",
+      "parkinson_volatility_20d",
+      "relative_volume_20d",
+      "log_dollar_volume",
+      "turnover_proxy",
+      "body_pct",
+      "range_pct",
+      "close_position",
+      "gap_from_yesterday",
+      "upper_shadow_pct",
+      "lower_shadow_pct",
+      "beta_20d_to_soxx",
+      "beta_60d_to_soxx",
+      "cs_rank_relative_volume_20d",
+      "cs_rank_volatility_20d",
+      "cs_rank_log_dollar_volume"
+    ],
+    "models": {
+      "direction_hgb": {
+        "max_iter": 160,
+        "max_leaf_nodes": 15,
+        "learning_rate": 0.04,
+        "l2_regularization": 0.5,
+        "random_state": 181
+      },
+      "direction_ridge": {
+        "alpha": 10.0
+      },
+      "selection_hgb": {
+        "max_iter": 220,
+        "max_leaf_nodes": 31,
+        "learning_rate": 0.035,
+        "l2_regularization": 0.2,
+        "random_state": 181
+      },
+      "retrain_every_sessions": 63,
+      "minimum_training_decision_dates": 50,
+      "fresh_model_each_retrain": true,
+      "selector_cross_section_weight": "1 / eligible_names_on_date"
+    },
+    "costs": {
+      "primary_one_way_bps": 10.0,
+      "primary_annual_borrow_rate_fallback": 0.05,
+      "stress_multiplier": 2.0,
+      "short_results_without_historical_borrow_data": "provisional"
+    },
+    "baselines": [
+      "SOXX buy-and-hold",
+      "selector long/cash using SOXX 200-day moving average",
+      "selector long/short using SOXX 200-day moving average",
+      "selector always long top 10",
+      "Ridge direction plus HGB selector"
+    ],
+    "evaluation": {
+      "periods_per_year": 50.4,
+      "hac_lag_periods": 1,
+      "minimum_hac_alpha_t_for_strong_claim": 2.0,
+      "require_positive_long_regime_return": true,
+      "require_positive_short_regime_return": true,
+      "require_positive_rank_ic_in_predicted_long_and_short_regimes": true,
+      "require_positive_factor_alpha": true,
+      "require_positive_stress_return": true,
+      "maximum_single_year_share_of_positive_log_return": 0.5
+    },
+    "forward_plan": {
+      "first_signal_date": "2026-08-10",
+      "first_execution_date": "2026-08-11",
+      "no_backfill": true
+    }
+  },
+  "data_audit": {
+    "exploratory": true,
+    "strict_blockers": [
+      "universe membership is not point-in-time/survivorship-safe",
+      "delisting outcomes are not documented as handled",
+      "historical borrow availability and fees are absent"
+    ],
+    "confirmatory_eligible": false,
+    "stock_rows": 45287,
+    "stock_symbols": 36,
+    "stock_start": "2021-07-30",
+    "stock_end": "2026-08-06",
+    "market_start": "2021-07-30",
+    "market_end": "2026-08-06",
+    "membership_rows": 36,
+    "membership_sources": [
+      "current-universe exploratory seed"
+    ],
+    "point_in_time_universe": false,
+    "delistings_handled": false,
+    "historical_borrow_available": false,
+    "eligible_rows": 14550,
+    "eligible_symbols": 25,
+    "median_eligible_names": 13.0,
+    "maximum_eligible_names": 25,
+    "decision_grid_dates": 252,
+    "decision_grid_anchor_requested": "2026-08-10",
+    "decision_grid_anchor_present_in_data": false,
+    "decision_grid_phase_reference_index": 1261
+  },
+  "walk_forward": {
+    "prediction_rows": 771,
+    "prediction_dates": 34,
+    "realized_prediction_dates": 33,
+    "retrain_events": 12,
+    "first_prediction_date": "2025-12-03",
+    "last_prediction_date": "2026-08-03",
+    "last_realized_signal_date": "2026-07-27"
+  },
+  "components": {
+    "direction_hgb": {
+      "periods": 33,
+      "sign_accuracy": 0.5454545454545454,
+      "prediction_target_correlation": -0.038963702027272444,
+      "mean_actual_soxx_when_predicted_positive": 0.02348762425669193,
+      "mean_actual_soxx_when_predicted_negative": 0.011085241405245583,
+      "predicted_positive_periods": 19,
+      "predicted_negative_periods": 14
+    },
+    "direction_ridge": {
+      "periods": 33,
+      "sign_accuracy": 0.5454545454545454,
+      "prediction_target_correlation": -0.3329456040408255,
+      "mean_actual_soxx_when_predicted_positive": 0.009673529395101257,
+      "mean_actual_soxx_when_predicted_negative": 0.044952500709131676,
+      "predicted_positive_periods": 25,
+      "predicted_negative_periods": 8
+    },
+    "selection_hgb_relative_return": {
+      "periods": 33,
+      "mean_rank_ic": -0.04178579135308905,
+      "mean_top_minus_bottom": -0.00418399974195692,
+      "positive_rank_ic_fraction": 0.48484848484848486,
+      "long_periods": 19,
+      "long_mean_rank_ic": -0.06326925032091842,
+      "long_mean_top_minus_bottom": -0.005516266972467966,
+      "short_periods": 14,
+      "short_mean_rank_ic": -0.012629668468177781,
+      "short_mean_top_minus_bottom": -0.0023759227862633616
+    }
+  },
+  "strategies": {
+    "hgb_directional": {
+      "periods": 33,
+      "total_return": 0.21363998337810108,
+      "annualized_return": 0.3440894554878966,
+      "annualized_volatility": 0.4361653080957677,
+      "sharpe": 0.8931909594949228,
+      "max_drawdown": -0.33383267883858214,
+      "win_rate": 0.6060606060606061,
+      "mean_period_return": 0.007729740278501138,
+      "median_period_return": 0.013462096098834194,
+      "period_alpha": -0.0020982711530225066,
+      "annualized_alpha": -0.10575286611233434,
+      "alpha_hac_t": -0.2167674643126574,
+      "beta_soxx": 0.49875531527556904,
+      "beta_qqq": 0.17837306746118742,
+      "observations": 33,
+      "factors": [
+        "SOXX open-to-open 5d return",
+        "QQQ open-to-open 5d return"
+      ],
+      "total_turnover": 38.8,
+      "average_turnover": 1.1757575757575758,
+      "total_transaction_cost": 0.03880000000000001,
+      "total_borrow_cost": 0.013888888888888888,
+      "long_periods": 19,
+      "short_periods": 14,
+      "cash_periods": 0,
+      "long_regime": {
+        "periods": 19,
+        "total_return": 0.46291872877561,
+        "annualized_return": 1.7432685198620073,
+        "annualized_volatility": 0.5101827423082588,
+        "sharpe": 2.2444282058358915,
+        "max_drawdown": -0.285181172973056,
+        "win_rate": 0.7368421052631579,
+        "mean_period_return": 0.022719613828717462,
+        "median_period_return": 0.04229335291321053
+      },
+      "short_regime": {
+        "periods": 14,
+        "total_return": -0.17039821863935167,
+        "annualized_return": -0.4895762976927063,
+        "annualized_volatility": 0.2624361274503376,
+        "sharpe": -2.422412062602328,
+        "max_drawdown": -0.21256829820672007,
+        "win_rate": 0.42857142857142855,
+        "mean_period_return": -0.0126136595396496,
+        "median_period_return": -0.015752613917391134
+      },
+      "yearly_log_returns": {
+        "2025": 0.21345929816217343,
+        "2026": -0.019835203559998224
+      },
+      "largest_positive_year_share": 1.0
+    },
+    "ridge_directional": {
+      "periods": 33,
+      "total_return": -0.10138974015475155,
+      "annualized_return": -0.15064191738735588,
+      "annualized_volatility": 0.46079628871588707,
+      "sharpe": -0.12440653658741109,
+      "max_drawdown": -0.3644221152176068,
+      "win_rate": 0.5757575757575758,
+      "mean_period_return": -0.0011374220307832589,
+      "median_period_return": 0.013462096098834194,
+      "period_alpha": -0.010683091328912882,
+      "annualized_alpha": -0.5384278029772093,
+      "alpha_hac_t": -1.4130033214108093,
+      "beta_soxx": 0.6222627286034665,
+      "beta_qqq": -0.43419630285786215,
+      "observations": 33,
+      "factors": [
+        "SOXX open-to-open 5d return",
+        "QQQ open-to-open 5d return"
+      ],
+      "total_turnover": 39.8,
+      "average_turnover": 1.206060606060606,
+      "total_transaction_cost": 0.03980000000000001,
+      "total_borrow_cost": 0.007936507936507936,
+      "long_periods": 25,
+      "short_periods": 8,
+      "cash_periods": 0,
+      "long_regime": {
+        "periods": 25,
+        "total_return": 0.31040084008602964,
+        "annualized_return": 0.7245936881182558,
+        "annualized_volatility": 0.44888835769248847,
+        "sharpe": 1.4407926627562435,
+        "max_drawdown": -0.2851811729730559,
+        "win_rate": 0.68,
+        "mean_period_return": 0.012832441511111856,
+        "median_period_return": 0.034630535235455326
+      },
+      "short_regime": {
+        "periods": 8,
+        "total_return": -0.31424779933271896,
+        "annualized_return": -0.9071347092250991,
+        "annualized_volatility": 0.3672904425734989,
+        "sharpe": -6.146578610599676,
+        "max_drawdown": -0.3166956796165231,
+        "win_rate": 0.25,
+        "mean_period_return": -0.04479324559920549,
+        "median_period_return": -0.03811373308028297
+      },
+      "yearly_log_returns": {
+        "2025": 0.11929537418601333,
+        "2026": -0.22620123900852362
+      },
+      "largest_positive_year_share": 1.0
+    },
+    "ma200_long_cash": {
+      "periods": 33,
+      "total_return": 0.5983084822684392,
+      "annualized_return": 1.0466580430931889,
+      "annualized_volatility": 0.4438891492219377,
+      "sharpe": 1.8425163335893948,
+      "max_drawdown": -0.285181172973056,
+      "win_rate": 0.6666666666666666,
+      "mean_period_return": 0.016227639042550007,
+      "median_period_return": 0.0272948897899875,
+      "period_alpha": -0.0012255684941367196,
+      "annualized_alpha": -0.061768652104490666,
+      "alpha_hac_t": -0.24243875726564101,
+      "beta_soxx": 1.0220390293401238,
+      "beta_qqq": -0.28398814000433187,
+      "observations": 33,
+      "factors": [
+        "SOXX open-to-open 5d return",
+        "QQQ open-to-open 5d return"
+      ],
+      "total_turnover": 28.000000000000004,
+      "average_turnover": 0.8484848484848486,
+      "total_transaction_cost": 0.028,
+      "total_borrow_cost": 0.0,
+      "long_periods": 33,
+      "short_periods": 0,
+      "cash_periods": 0,
+      "long_regime": {
+        "periods": 33,
+        "total_return": 0.5983084822684392,
+        "annualized_return": 1.0466580430931889,
+        "annualized_volatility": 0.4438891492219377,
+        "sharpe": 1.8425163335893948,
+        "max_drawdown": -0.285181172973056,
+        "win_rate": 0.6666666666666666,
+        "mean_period_return": 0.016227639042550007,
+        "median_period_return": 0.0272948897899875
+      },
+      "short_regime": {},
+      "yearly_log_returns": {
+        "2025": 0.11929537418601333,
+        "2026": 0.34965049724889696
+      },
+      "largest_positive_year_share": 0.7456095011115339
+    },
+    "ma200_directional": {
+      "periods": 33,
+      "total_return": 0.5983084822684392,
+      "annualized_return": 1.0466580430931889,
+      "annualized_volatility": 0.4438891492219377,
+      "sharpe": 1.8425163335893948,
+      "max_drawdown": -0.285181172973056,
+      "win_rate": 0.6666666666666666,
+      "mean_period_return": 0.016227639042550007,
+      "median_period_return": 0.0272948897899875,
+      "period_alpha": -0.0012255684941367196,
+      "annualized_alpha": -0.061768652104490666,
+      "alpha_hac_t": -0.24243875726564101,
+      "beta_soxx": 1.0220390293401238,
+      "beta_qqq": -0.28398814000433187,
+      "observations": 33,
+      "factors": [
+        "SOXX open-to-open 5d return",
+        "QQQ open-to-open 5d return"
+      ],
+      "total_turnover": 28.000000000000004,
+      "average_turnover": 0.8484848484848486,
+      "total_transaction_cost": 0.028,
+      "total_borrow_cost": 0.0,
+      "long_periods": 33,
+      "short_periods": 0,
+      "cash_periods": 0,
+      "long_regime": {
+        "periods": 33,
+        "total_return": 0.5983084822684392,
+        "annualized_return": 1.0466580430931889,
+        "annualized_volatility": 0.4438891492219377,
+        "sharpe": 1.8425163335893948,
+        "max_drawdown": -0.285181172973056,
+        "win_rate": 0.6666666666666666,
+        "mean_period_return": 0.016227639042550007,
+        "median_period_return": 0.0272948897899875
+      },
+      "short_regime": {},
+      "yearly_log_returns": {
+        "2025": 0.11929537418601333,
+        "2026": 0.34965049724889696
+      },
+      "largest_positive_year_share": 0.7456095011115339
+    },
+    "selector_always_long": {
+      "periods": 33,
+      "total_return": 0.5983084822684392,
+      "annualized_return": 1.0466580430931889,
+      "annualized_volatility": 0.4438891492219377,
+      "sharpe": 1.8425163335893948,
+      "max_drawdown": -0.285181172973056,
+      "win_rate": 0.6666666666666666,
+      "mean_period_return": 0.016227639042550007,
+      "median_period_return": 0.0272948897899875,
+      "period_alpha": -0.0012255684941367196,
+      "annualized_alpha": -0.061768652104490666,
+      "alpha_hac_t": -0.24243875726564101,
+      "beta_soxx": 1.0220390293401238,
+      "beta_qqq": -0.28398814000433187,
+      "observations": 33,
+      "factors": [
+        "SOXX open-to-open 5d return",
+        "QQQ open-to-open 5d return"
+      ],
+      "total_turnover": 28.000000000000004,
+      "average_turnover": 0.8484848484848486,
+      "total_transaction_cost": 0.028,
+      "total_borrow_cost": 0.0,
+      "long_periods": 33,
+      "short_periods": 0,
+      "cash_periods": 0,
+      "long_regime": {
+        "periods": 33,
+        "total_return": 0.5983084822684392,
+        "annualized_return": 1.0466580430931889,
+        "annualized_volatility": 0.4438891492219377,
+        "sharpe": 1.8425163335893948,
+        "max_drawdown": -0.285181172973056,
+        "win_rate": 0.6666666666666666,
+        "mean_period_return": 0.016227639042550007,
+        "median_period_return": 0.0272948897899875
+      },
+      "short_regime": {},
+      "yearly_log_returns": {
+        "2025": 0.11929537418601333,
+        "2026": 0.34965049724889696
+      },
+      "largest_positive_year_share": 0.7456095011115339
+    },
+    "soxx_buy_hold": {
+      "periods": 33,
+      "total_return": 0.7179268342763894,
+      "annualized_return": 1.2851578945722562,
+      "annualized_volatility": 0.4137533108087536,
+      "sharpe": 2.212758660812226,
+      "max_drawdown": -0.2421160493071911,
+      "win_rate": 0.7272727272727273,
+      "mean_period_return": 0.0181654012288056,
+      "median_period_return": 0.015386532112377838,
+      "period_alpha": -6.0395955743398676e-05,
+      "annualized_alpha": -0.003043956169467293,
+      "alpha_hac_t": -1.4653801181794879,
+      "beta_soxx": 1.0006620613277464,
+      "beta_qqq": -0.002968519784358142,
+      "observations": 33,
+      "factors": [
+        "SOXX open-to-open 5d return",
+        "QQQ open-to-open 5d return"
+      ],
+      "total_turnover": 2.0,
+      "average_turnover": 0.06060606060606061,
+      "total_transaction_cost": 0.002,
+      "total_borrow_cost": 0.0,
+      "long_periods": 33,
+      "short_periods": 0,
+      "cash_periods": 0,
+      "long_regime": {
+        "periods": 33,
+        "total_return": 0.7179268342763894,
+        "annualized_return": 1.2851578945722562,
+        "annualized_volatility": 0.4137533108087536,
+        "sharpe": 2.212758660812226,
+        "max_drawdown": -0.2421160493071911,
+        "win_rate": 0.7272727272727273,
+        "mean_period_return": 0.0181654012288056,
+        "median_period_return": 0.015386532112377838
+      },
+      "short_regime": {},
+      "yearly_log_returns": {
+        "2025": 0.04148479950902386,
+        "2026": 0.4996334354141366
+      },
+      "largest_positive_year_share": 0.9233350553878215
+    }
+  },
+  "cost_stress": {
+    "periods": 33,
+    "total_return": 0.1679861632875539,
+    "annualized_return": 0.2676394804149764,
+    "annualized_volatility": 0.4350742071968396,
+    "sharpe": 0.7592284781635635,
+    "max_drawdown": -0.34048798489356336,
+    "win_rate": 0.6060606060606061,
+    "mean_period_return": 0.00655398270274356,
+    "median_period_return": 0.012462096098834195,
+    "period_alpha": -0.0032313349314739164,
+    "annualized_alpha": -0.16285928054628537,
+    "alpha_hac_t": -0.3354751179759894,
+    "beta_soxx": 0.49799838312382827,
+    "beta_qqq": 0.17138559108742446,
+    "observations": 33,
+    "factors": [
+      "SOXX open-to-open 5d return",
+      "QQQ open-to-open 5d return"
+    ],
+    "total_turnover": 38.8,
+    "average_turnover": 1.1757575757575758,
+    "total_transaction_cost": 0.07760000000000002,
+    "total_borrow_cost": 0.013888888888888888,
+    "long_periods": 19,
+    "short_periods": 14,
+    "cash_periods": 0,
+    "long_regime": {
+      "periods": 19,
+      "total_return": 0.43415415901271603,
+      "annualized_return": 1.60250193775792,
+      "annualized_volatility": 0.5081066672310125,
+      "sharpe": 2.146053962219078,
+      "max_drawdown": -0.2870118486599065,
+      "win_rate": 0.7368421052631579,
+      "mean_period_return": 0.021635403302401685,
+      "median_period_return": 0.04149335291321053
+    },
+    "short_regime": {
+      "periods": 14,
+      "total_return": -0.185592318686573,
+      "annualized_return": -0.5224369686300342,
+      "annualized_volatility": 0.2626440598747855,
+      "sharpe": -2.669957360286987,
+      "max_drawdown": -0.22396803144032829,
+      "win_rate": 0.42857142857142855,
+      "mean_period_return": -0.013913659539649598,
+      "median_period_return": -0.016552613917391133
+    },
+    "yearly_log_returns": {
+      "2025": 0.20795912163064556,
+      "2026": -0.05267808379516287
+    },
+    "largest_positive_year_share": 1.0
+  },
+  "decision": {
+    "checks": {
+      "long_regime_after_cost_positive": true,
+      "short_regime_after_cost_positive": false,
+      "rank_ic_predicted_long_positive": false,
+      "rank_ic_predicted_short_positive": false,
+      "factor_alpha_positive": false,
+      "hac_alpha_t_at_least_2": false,
+      "stress_total_return_positive": true,
+      "not_dominated_by_one_positive_year": false,
+      "confirmatory_data": false
+    },
+    "statistical_strategy_pass": false,
+    "production_evidence_pass": false
+  },
+  "interpretation_guardrails": [
+    "Exploratory current-universe results are survivorship-biased and not confirmatory.",
+    "Short-side results using fallback borrow assumptions are provisional.",
+    "The architecture is not connected to paper or live trading.",
+    "Do not tune the sign threshold, horizon, feature sets, or portfolio rules from this first result."
+  ]
+}

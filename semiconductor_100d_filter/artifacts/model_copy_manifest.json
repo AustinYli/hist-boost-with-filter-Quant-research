@@ -1,0 +1,88 @@
+{
+  "copy_type": "physical_independent_files",
+  "selector_model": "unchanged copied HistGradientBoostingRegressor",
+  "variant_change": "SOXX regime moving-average window: 200 sessions -> isolated 100/300-session variants",
+  "trading_integration": "none",
+  "copies": [
+    {
+      "horizon_days": 3,
+      "moving_average_days": 100,
+      "files": [
+        {
+          "source": "/Users/austinlilyx1/Documents/quant/models/semiconductor_fixed_weight/hgb_3d/model.joblib",
+          "copy": "/Users/austinlilyx1/Documents/quant/semiconductor_100d_filter/models/hgb_3d_100d_filter/model.joblib",
+          "source_sha256": "5c66311312d60ef1ab581f4496463a43388ebebc5024c8ccb219dab7a94feebf",
+          "copy_sha256": "5c66311312d60ef1ab581f4496463a43388ebebc5024c8ccb219dab7a94feebf",
+          "copy_is_symlink": false
+        },
+        {
+          "source": "/Users/austinlilyx1/Documents/quant/models/semiconductor_fixed_weight/hgb_3d/metadata.json",
+          "copy": "/Users/austinlilyx1/Documents/quant/semiconductor_100d_filter/models/hgb_3d_100d_filter/source_metadata.json",
+          "source_sha256": "bd6f9fa92b532e27eb559684855452320e0acf2ec82cf990c2d7d9f0b793334a",
+          "copy_sha256": "bd6f9fa92b532e27eb559684855452320e0acf2ec82cf990c2d7d9f0b793334a",
+          "copy_is_symlink": false
+        }
+      ]
+    },
+    {
+      "horizon_days": 5,
+      "moving_average_days": 100,
+      "files": [
+        {
+          "source": "/Users/austinlilyx1/Documents/quant/models/semiconductor_fixed_weight/hgb_5d/model.joblib",
+          "copy": "/Users/austinlilyx1/Documents/quant/semiconductor_100d_filter/models/hgb_5d_100d_filter/model.joblib",
+          "source_sha256": "5247158eaeff1d9689fd40846794938248cea7ec7e5859435dc06d2894c8a250",
+          "copy_sha256": "5247158eaeff1d9689fd40846794938248cea7ec7e5859435dc06d2894c8a250",
+          "copy_is_symlink": false
+        },
+        {
+          "source": "/Users/austinlilyx1/Documents/quant/models/semiconductor_fixed_weight/hgb_5d/metadata.json",
+          "copy": "/Users/austinlilyx1/Documents/quant/semiconductor_100d_filter/models/hgb_5d_100d_filter/source_metadata.json",
+          "source_sha256": "a2a61fe27c2eac883409789f3a8057598f4fcb4f09854fe078e1cb16cab2ea44",
+          "copy_sha256": "a2a61fe27c2eac883409789f3a8057598f4fcb4f09854fe078e1cb16cab2ea44",
+          "copy_is_symlink": false
+        }
+      ]
+    },
+    {
+      "horizon_days": 3,
+      "moving_average_days": 300,
+      "files": [
+        {
+          "source": "/Users/austinlilyx1/Documents/quant/models/semiconductor_fixed_weight/hgb_3d/model.joblib",
+          "copy": "/Users/austinlilyx1/Documents/quant/semiconductor_100d_filter/models/hgb_3d_300d_filter/model.joblib",
+          "source_sha256": "5c66311312d60ef1ab581f4496463a43388ebebc5024c8ccb219dab7a94feebf",
+          "copy_sha256": "5c66311312d60ef1ab581f4496463a43388ebebc5024c8ccb219dab7a94feebf",
+          "copy_is_symlink": false
+        },
+        {
+          "source": "/Users/austinlilyx1/Documents/quant/models/semiconductor_fixed_weight/hgb_3d/metadata.json",
+          "copy": "/Users/austinlilyx1/Documents/quant/semiconductor_100d_filter/models/hgb_3d_300d_filter/source_metadata.json",
+          "source_sha256": "bd6f9fa92b532e27eb559684855452320e0acf2ec82cf990c2d7d9f0b793334a",
+          "copy_sha256": "bd6f9fa92b532e27eb559684855452320e0acf2ec82cf990c2d7d9f0b793334a",
+          "copy_is_symlink": false
+        }
+      ]
+    },
+    {
+      "horizon_days": 5,
+      "moving_average_days": 300,
+      "files": [
+        {
+          "source": "/Users/austinlilyx1/Documents/quant/models/semiconductor_fixed_weight/hgb_5d/model.joblib",
+          "copy": "/Users/austinlilyx1/Documents/quant/semiconductor_100d_filter/models/hgb_5d_300d_filter/model.joblib",
+          "source_sha256": "5247158eaeff1d9689fd40846794938248cea7ec7e5859435dc06d2894c8a250",
+          "copy_sha256": "5247158eaeff1d9689fd40846794938248cea7ec7e5859435dc06d2894c8a250",
+          "copy_is_symlink": false
+        },
+        {
+          "source": "/Users/austinlilyx1/Documents/quant/models/semiconductor_fixed_weight/hgb_5d/metadata.json",
+          "copy": "/Users/austinlilyx1/Documents/quant/semiconductor_100d_filter/models/hgb_5d_300d_filter/source_metadata.json",
+          "source_sha256": "a2a61fe27c2eac883409789f3a8057598f4fcb4f09854fe078e1cb16cab2ea44",
+          "copy_sha256": "a2a61fe27c2eac883409789f3a8057598f4fcb4f09854fe078e1cb16cab2ea44",
+          "copy_is_symlink": false
+        }
+      ]
+    }
+  ]
+}

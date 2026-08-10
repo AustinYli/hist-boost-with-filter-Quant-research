@@ -1,0 +1,143 @@
+{
+  "project": "semiconductor_v3_direction_plus_selection",
+  "research_only": true,
+  "trading_integration": false,
+  "hypothesis_locked_at": "2026-08-08",
+  "hypothesis": {
+    "direction_positive": "long the 10 stocks with highest predicted SOXX-relative 5-session return",
+    "direction_negative": "short the 10 stocks with lowest predicted SOXX-relative 5-session return",
+    "neutral_state": false,
+    "gross_exposure": 1.0,
+    "single_name_weight": 0.1
+  },
+  "data": {
+    "stock_bars": "semiconductor_v3_directional/data/stock_bars.csv",
+    "market_bars": "semiconductor_v3_directional/data/market_bars.csv",
+    "universe_membership": "semiconductor_v3_directional/data/universe_membership.csv",
+    "borrow_costs": "semiconductor_v3_directional/data/borrow_costs.csv",
+    "required_market_symbols": ["SOXX", "SPY", "QQQ"],
+    "desired_start_date": "2001-01-02",
+    "historical_oos_start": "2007-01-03",
+    "research_label_cutoff": "2026-07-31",
+    "adjustment": "split",
+    "require_point_in_time_universe": true,
+    "require_delisting_handling": true,
+    "require_historical_borrow_data_for_confirmatory_short_results": true
+  },
+  "universe": {
+    "industry": "Semiconductors & Semiconductor Equipment",
+    "security_type": "common_equity",
+    "us_listed": true,
+    "minimum_history_sessions": 252,
+    "minimum_price": 5.0,
+    "liquidity_window_sessions": 60,
+    "minimum_median_dollar_volume": 20000000.0,
+    "maximum_names": 50,
+    "minimum_names_to_trade": 20
+  },
+  "execution": {
+    "horizon_sessions": 5,
+    "signal_time": "after_close_t",
+    "entry_time": "open_t_plus_1",
+    "exit_time": "open_t_plus_6",
+    "decision_grid_every_sessions": 5,
+    "decision_grid_anchor_date": "2026-08-10",
+    "label_embargo": "label_exit_date <= current_signal_date",
+    "overlapping_labels": false
+  },
+  "direction_features": [
+    "soxx_return_5d",
+    "soxx_return_20d",
+    "soxx_return_60d",
+    "soxx_distance_ma_20",
+    "soxx_distance_ma_50",
+    "soxx_distance_ma_200",
+    "soxx_volatility_10d",
+    "soxx_volatility_20d",
+    "soxx_volatility_60d",
+    "soxx_drawdown_60d",
+    "soxx_relative_volume_20d",
+    "spy_return_20d",
+    "spy_return_60d",
+    "qqq_return_20d",
+    "qqq_return_60d",
+    "sector_breadth_positive_20d",
+    "sector_breadth_above_ma_60",
+    "sector_median_return_1d",
+    "sector_median_return_20d",
+    "sector_dispersion_1d",
+    "sector_dispersion_20d"
+  ],
+  "selection_features": [
+    "volatility_20d",
+    "volatility_60d",
+    "atr_20_pct",
+    "parkinson_volatility_20d",
+    "relative_volume_20d",
+    "log_dollar_volume",
+    "turnover_proxy",
+    "body_pct",
+    "range_pct",
+    "close_position",
+    "gap_from_yesterday",
+    "upper_shadow_pct",
+    "lower_shadow_pct",
+    "beta_20d_to_soxx",
+    "beta_60d_to_soxx",
+    "cs_rank_relative_volume_20d",
+    "cs_rank_volatility_20d",
+    "cs_rank_log_dollar_volume"
+  ],
+  "models": {
+    "direction_hgb": {
+      "max_iter": 160,
+      "max_leaf_nodes": 15,
+      "learning_rate": 0.04,
+      "l2_regularization": 0.5,
+      "random_state": 181
+    },
+    "direction_ridge": {
+      "alpha": 10.0
+    },
+    "selection_hgb": {
+      "max_iter": 220,
+      "max_leaf_nodes": 31,
+      "learning_rate": 0.035,
+      "l2_regularization": 0.2,
+      "random_state": 181
+    },
+    "retrain_every_sessions": 63,
+    "minimum_training_decision_dates": 50,
+    "fresh_model_each_retrain": true,
+    "selector_cross_section_weight": "1 / eligible_names_on_date"
+  },
+  "costs": {
+    "primary_one_way_bps": 10.0,
+    "primary_annual_borrow_rate_fallback": 0.05,
+    "stress_multiplier": 2.0,
+    "short_results_without_historical_borrow_data": "provisional"
+  },
+  "baselines": [
+    "SOXX buy-and-hold",
+    "selector long/cash using SOXX 200-day moving average",
+    "selector long/short using SOXX 200-day moving average",
+    "selector always long top 10",
+    "Ridge direction plus HGB selector"
+  ],
+  "evaluation": {
+    "periods_per_year": 50.4,
+    "hac_lag_periods": 1,
+    "minimum_hac_alpha_t_for_strong_claim": 2.0,
+    "require_positive_long_regime_return": true,
+    "require_positive_short_regime_return": true,
+    "require_positive_rank_ic_in_predicted_long_and_short_regimes": true,
+    "require_positive_factor_alpha": true,
+    "require_positive_stress_return": true,
+    "maximum_single_year_share_of_positive_log_return": 0.5
+  },
+  "forward_plan": {
+    "first_signal_date": "2026-08-10",
+    "first_execution_date": "2026-08-11",
+    "no_backfill": true
+  }
+}

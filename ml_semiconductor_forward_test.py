@@ -21,6 +21,7 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
+from joblib import dump, load
 
 from ml_semiconductor_frozen_manifest import FROZEN_RULES, SELECTION_FEATURES
 from ml_semiconductor_regime_overlay_tests import choose_selection_weights
@@ -31,6 +32,7 @@ from ml_semiconductor_walkforward_compare import SEMICONDUCTOR_UNIVERSE, make_hg
 FORWARD_DIR = Path("models/semiconductor_forward_test")
 SIGNAL_LOG = FORWARD_DIR / "forward_signals.jsonl"
 EVALUATION_LOG = FORWARD_DIR / "forward_evaluations.jsonl"
+FIXED_MODEL_ROOT = Path("models/semiconductor_fixed_weight")
 
 
 def normalize_date(value) -> str:
@@ -89,8 +91,20 @@ def append_jsonl(path: Path, record: dict) -> None:
         handle.write(json.dumps(record, default=str) + "\n")
 
 
-def latest_archived_weights() -> dict[str, float]:
-    records = read_jsonl(SIGNAL_LOG)
+def signal_log_path(args: argparse.Namespace) -> Path:
+    return Path(getattr(args, "signal_log", None) or SIGNAL_LOG)
+
+
+def evaluation_log_path(args: argparse.Namespace) -> Path:
+    return Path(getattr(args, "evaluation_log", None) or EVALUATION_LOG)
+
+
+def fixed_model_dir_for_horizon(horizon_days: int) -> Path:
+    return FIXED_MODEL_ROOT / f"hgb_{horizon_days}d"
+
+
+def latest_archived_weights(path: Path = SIGNAL_LOG) -> dict[str, float]:
+    records = read_jsonl(path)
     if not records:
         return {}
     return records[-1].get("intended_weights", {})
@@ -113,7 +127,61 @@ def rank_benchmarks(day: pd.DataFrame, exposure: float) -> dict:
     }
 
 
+def train_fixed_model(args: argparse.Namespace) -> dict:
+    model_dir = Path(args.model_dir) if args.model_dir else fixed_model_dir_for_horizon(args.horizon_days)
+    data, _, all_features = load_feature_frame(Path(args.bars), Path(args.market_bars), args.horizon_days)
+    signal_date = pd.Timestamp(args.signal_date).date() if args.signal_date else max(available_signal_dates(data))
+    train_cutoff = (
+        pd.Timestamp(args.train_cutoff_date).date()
+        if args.train_cutoff_date
+        else train_cutoff_for_signal(signal_date, data, args.horizon_days)
+    )
+    train = data[
+        (data["date"] <= train_cutoff)
+        & data["future_return"].notna()
+    ].dropna(subset=all_features + ["future_return"])
+    if train.empty:
+        raise ValueError("Insufficient rows to train fixed model.")
+
+    model = make_hgb(args.seed, args.n_estimators, args.learning_rate)
+    model.fit(train[SELECTION_FEATURES], train["future_return"])
+    model_dir.mkdir(parents=True, exist_ok=True)
+    dump(model, model_dir / "model.joblib")
+    metadata = {
+        "model_training_mode": "fixed_weight",
+        "created_at_utc": datetime.now(timezone.utc).isoformat(),
+        "model_type": "HistGradientBoostingRegressor",
+        "horizon_days": args.horizon_days,
+        "signal_date_reference": normalize_date(signal_date),
+        "train_label_cutoff_date": normalize_date(train_cutoff),
+        "train_rows": int(len(train)),
+        "selection_features": SELECTION_FEATURES,
+        "hyperparameters": {
+            "max_iter": args.n_estimators,
+            "max_leaf_nodes": 31,
+            "learning_rate": args.learning_rate,
+            "l2_regularization": 0.2,
+            "random_state": args.seed,
+        },
+        "bars": str(args.bars),
+        "market_bars": str(args.market_bars),
+        "note": "Fixed-weight model. Future signals should load this model instead of retraining.",
+    }
+    (model_dir / "metadata.json").write_text(json.dumps(metadata, indent=2, default=str), encoding="utf-8")
+    return {"model_dir": str(model_dir), "metadata": metadata}
+
+
+def load_fixed_model(model_dir: Path) -> tuple[object, dict]:
+    metadata_path = model_dir / "metadata.json"
+    model_path = model_dir / "model.joblib"
+    if not metadata_path.exists() or not model_path.exists():
+        raise ValueError(f"Missing fixed model files in {model_dir}")
+    metadata = json.loads(metadata_path.read_text(encoding="utf-8"))
+    return load(model_path), metadata
+
+
 def make_forward_signal(args: argparse.Namespace) -> dict:
+    signal_log = signal_log_path(args)
     data, market, all_features = load_feature_frame(Path(args.bars), Path(args.market_bars), args.horizon_days)
     dates = available_signal_dates(data)
     signal_date = pd.Timestamp(args.signal_date).date() if args.signal_date else dates[-1]
@@ -129,13 +197,21 @@ def make_forward_signal(args: argparse.Namespace) -> dict:
     if train.empty or predict.empty:
         raise ValueError("Insufficient train or prediction rows.")
 
-    model = make_hgb(args.seed, args.n_estimators, args.learning_rate)
-    model.fit(train[SELECTION_FEATURES], train["future_return"])
+    fixed_model_dir = Path(args.model_dir) if getattr(args, "model_dir", None) else None
+    fixed_metadata = None
+    if fixed_model_dir:
+        model, fixed_metadata = load_fixed_model(fixed_model_dir)
+        train_cutoff = pd.Timestamp(fixed_metadata["train_label_cutoff_date"]).date()
+        train_rows = int(fixed_metadata.get("train_rows", 0))
+    else:
+        model = make_hgb(args.seed, args.n_estimators, args.learning_rate)
+        model.fit(train[SELECTION_FEATURES], train["future_return"])
+        train_rows = int(len(train))
     predict["predicted_return"] = model.predict(predict[SELECTION_FEATURES])
     predict = predict.sort_values("predicted_return", ascending=False)
 
     regime = regime_exposure_for_date(market, signal_date)
-    current_weights = latest_archived_weights()
+    current_weights = latest_archived_weights(signal_log)
     base_weights = choose_selection_weights(predict, current_weights, FROZEN_RULES)
     intended_weights = {symbol: float(weight * regime["exposure"]) for symbol, weight in base_weights.items()}
     intended_weights = {symbol: weight for symbol, weight in intended_weights.items() if weight > 1e-12}
@@ -147,10 +223,14 @@ def make_forward_signal(args: argparse.Namespace) -> dict:
         "strategy_name": "frozen_hgb_ex_momentum_soxx_200d_long_only",
         "created_at_utc": datetime.now(timezone.utc).isoformat(),
         "data_asof_date": normalize_date(signal_date),
+        "horizon_days": args.horizon_days,
         "train_label_cutoff_date": normalize_date(train_cutoff),
         "execution_assumption": "after-close signal, intended next-session execution",
         "model": {
             "type": "HistGradientBoostingRegressor",
+            "training_mode": "fixed_weight" if fixed_model_dir else "expanding_window",
+            "fixed_model_dir": str(fixed_model_dir) if fixed_model_dir else None,
+            "fixed_model_created_at_utc": fixed_metadata.get("created_at_utc") if fixed_metadata else None,
             "hyperparameters": {
                 "max_iter": args.n_estimators,
                 "max_leaf_nodes": 31,
@@ -158,7 +238,7 @@ def make_forward_signal(args: argparse.Namespace) -> dict:
                 "l2_regularization": 0.2,
                 "random_state": args.seed,
             },
-            "train_rows": int(len(train)),
+            "train_rows": train_rows,
             "predict_rows": int(len(predict)),
             "warmup_eligibility": "Rows require complete full 62-feature research matrix, then use frozen 18 features.",
         },
@@ -177,7 +257,7 @@ def make_forward_signal(args: argparse.Namespace) -> dict:
         "benchmarks": rank_benchmarks(predict, regime["exposure"]),
         "status": "archived_signal_not_yet_evaluated",
     }
-    append_jsonl(SIGNAL_LOG, signal)
+    append_jsonl(signal_log, signal)
     return signal
 
 
@@ -246,10 +326,12 @@ def evaluate_signal(signal: dict, data: pd.DataFrame, market: pd.DataFrame, hori
 
 def evaluate_archived_signals(args: argparse.Namespace) -> list[dict]:
     data, market, _ = load_feature_frame(Path(args.bars), Path(args.market_bars), args.horizon_days)
-    signals = read_jsonl(SIGNAL_LOG)
+    signal_log = signal_log_path(args)
+    evaluation_log = evaluation_log_path(args)
+    signals = read_jsonl(signal_log)
     existing = {
         (record["signal_created_at_utc"], record["data_asof_date"])
-        for record in read_jsonl(EVALUATION_LOG)
+        for record in read_jsonl(evaluation_log)
     }
     new_records = []
     for signal in signals:
@@ -258,14 +340,14 @@ def evaluate_archived_signals(args: argparse.Namespace) -> list[dict]:
             continue
         evaluation = evaluate_signal(signal, data, market, args.horizon_days)
         if evaluation is not None:
-            append_jsonl(EVALUATION_LOG, evaluation)
+            append_jsonl(evaluation_log, evaluation)
             new_records.append(evaluation)
     return new_records
 
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="Forward journal for the frozen semiconductor strategy.")
-    parser.add_argument("command", choices=["signal", "evaluate", "status"])
+    parser.add_argument("command", choices=["freeze", "signal", "evaluate", "status"])
     parser.add_argument("--bars", default="data/semiconductor_sector_1d_5y.csv")
     parser.add_argument("--market-bars", default="data/semiconductor_market_1d_5y.csv")
     parser.add_argument("--horizon-days", type=int, default=5)
@@ -273,9 +355,15 @@ def main() -> int:
     parser.add_argument("--learning-rate", type=float, default=0.035)
     parser.add_argument("--seed", type=int, default=181)
     parser.add_argument("--signal-date", default=None)
+    parser.add_argument("--train-cutoff-date", default=None)
+    parser.add_argument("--model-dir", default=None)
+    parser.add_argument("--signal-log", default=str(SIGNAL_LOG))
+    parser.add_argument("--evaluation-log", default=str(EVALUATION_LOG))
     args = parser.parse_args()
 
-    if args.command == "signal":
+    if args.command == "freeze":
+        print(json.dumps(train_fixed_model(args), indent=2, default=str))
+    elif args.command == "signal":
         print(json.dumps(make_forward_signal(args), indent=2, default=str))
     elif args.command == "evaluate":
         print(json.dumps({"new_evaluations": evaluate_archived_signals(args)}, indent=2, default=str))
@@ -283,10 +371,10 @@ def main() -> int:
         print(
             json.dumps(
                 {
-                    "signal_log": str(SIGNAL_LOG),
-                    "signal_count": len(read_jsonl(SIGNAL_LOG)),
-                    "evaluation_log": str(EVALUATION_LOG),
-                    "evaluation_count": len(read_jsonl(EVALUATION_LOG)),
+                    "signal_log": str(signal_log_path(args)),
+                    "signal_count": len(read_jsonl(signal_log_path(args))),
+                    "evaluation_log": str(evaluation_log_path(args)),
+                    "evaluation_count": len(read_jsonl(evaluation_log_path(args))),
                 },
                 indent=2,
             )

@@ -1,0 +1,26 @@
+{
+  "locked_at_utc": "2026-08-09T07:48:53.559125+00:00",
+  "hypothesis_locked_at": "2026-08-08",
+  "purpose": "Verify that V4 and its shared feature pipeline are unchanged before the new-data rerun.",
+  "files": {
+    "v4_spec": {
+      "path": "/Users/austinlilyx1/Documents/quant/semiconductor_v4_continuous/spec.json",
+      "sha256": "140346fd7ca126dff528f3dc71271b6b2c136da2b481d318d3277b1659c6495b"
+    },
+    "v4_research": {
+      "path": "/Users/austinlilyx1/Documents/quant/semiconductor_v4_continuous/research.py",
+      "sha256": "03ca9c95f7dd742cecc7aba16f9b210db82be0b15f061c4e2ffed654c61b9f08"
+    },
+    "v3_data_dependency": {
+      "path": "/Users/austinlilyx1/Documents/quant/semiconductor_v3_directional/research.py",
+      "sha256": "78af371a69e6834abfba2100347ded57b0d1dcb760bebbad4491613bdd8a53c9"
+    }
+  },
+  "runtime": {
+    "python": "3.13.9",
+    "numpy": "2.5.1",
+    "pandas": "3.0.3",
+    "scipy": "1.18.0",
+    "sklearn": "1.9.0"
+  }
+}

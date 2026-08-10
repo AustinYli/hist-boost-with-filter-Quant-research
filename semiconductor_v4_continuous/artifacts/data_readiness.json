@@ -1,0 +1,312 @@
+{
+  "created_at_utc": "2026-08-09T08:08:01.047226+00:00",
+  "stage": "/Users/austinlilyx1/Documents/quant/semiconductor_v4_continuous/data",
+  "canonical_directory": "/Users/austinlilyx1/Documents/quant/semiconductor_v4_continuous/data",
+  "contract_locked_at": "2026-08-09",
+  "checks": [
+    {
+      "name": "provenance_file",
+      "passed": true,
+      "blocking": true,
+      "detail": "source_manifest.json"
+    },
+    {
+      "name": "raw_export_fingerprint",
+      "passed": false,
+      "blocking": true,
+      "detail": "raw_manifest.json is missing"
+    },
+    {
+      "name": "attestation:point_in_time_membership",
+      "passed": false,
+      "blocking": true,
+      "detail": "provider/export attestation must be true"
+    },
+    {
+      "name": "attestation:active_and_inactive_securities",
+      "passed": false,
+      "blocking": true,
+      "detail": "provider/export attestation must be true"
+    },
+    {
+      "name": "attestation:delisting_outcomes",
+      "passed": false,
+      "blocking": true,
+      "detail": "provider/export attestation must be true"
+    },
+    {
+      "name": "attestation:borrow_availability",
+      "passed": false,
+      "blocking": true,
+      "detail": "provider/export attestation must be true"
+    },
+    {
+      "name": "attestation:borrow_fees",
+      "passed": false,
+      "blocking": true,
+      "detail": "provider/export attestation must be true"
+    },
+    {
+      "name": "attestation:dividends",
+      "passed": false,
+      "blocking": true,
+      "detail": "provider/export attestation must be true"
+    },
+    {
+      "name": "attestation:corporate_actions",
+      "passed": false,
+      "blocking": true,
+      "detail": "provider/export attestation must be true"
+    },
+    {
+      "name": "price_adjustment",
+      "passed": false,
+      "blocking": true,
+      "detail": "required=split_adjusted_dividend_unadjusted, observed=None"
+    },
+    {
+      "name": "file:security_master.csv",
+      "passed": false,
+      "blocking": true,
+      "detail": "file is missing"
+    },
+    {
+      "name": "schema:stock_bars.csv",
+      "passed": true,
+      "blocking": true,
+      "detail": "required columns present"
+    },
+    {
+      "name": "schema:market_bars.csv",
+      "passed": true,
+      "blocking": true,
+      "detail": "required columns present"
+    },
+    {
+      "name": "schema:universe_membership.csv",
+      "passed": true,
+      "blocking": true,
+      "detail": "required columns present"
+    },
+    {
+      "name": "schema:borrow_costs.csv",
+      "passed": true,
+      "blocking": true,
+      "detail": "required columns present"
+    },
+    {
+      "name": "schema:dividends.csv",
+      "passed": true,
+      "blocking": true,
+      "detail": "required columns present"
+    },
+    {
+      "name": "schema:corporate_actions.csv",
+      "passed": true,
+      "blocking": true,
+      "detail": "required columns present"
+    },
+    {
+      "name": "rows:security_master.csv",
+      "passed": false,
+      "blocking": true,
+      "detail": "table is empty"
+    },
+    {
+      "name": "numeric:stock_bars.csv",
+      "passed": true,
+      "blocking": true,
+      "detail": "finite nonnegative OHLCV values"
+    },
+    {
+      "name": "ohlc:stock_bars.csv",
+      "passed": true,
+      "blocking": true,
+      "detail": "low <= open/close <= high"
+    },
+    {
+      "name": "unique:stock_bars.csv",
+      "passed": true,
+      "blocking": true,
+      "detail": "duplicate symbol-date rows: 0"
+    },
+    {
+      "name": "numeric:market_bars.csv",
+      "passed": true,
+      "blocking": true,
+      "detail": "finite nonnegative OHLCV values"
+    },
+    {
+      "name": "ohlc:market_bars.csv",
+      "passed": true,
+      "blocking": true,
+      "detail": "low <= open/close <= high"
+    },
+    {
+      "name": "unique:market_bars.csv",
+      "passed": true,
+      "blocking": true,
+      "detail": "duplicate symbol-date rows: 0"
+    },
+    {
+      "name": "membership_intervals",
+      "passed": true,
+      "blocking": true,
+      "detail": "bad ranges=0, overlaps=0"
+    },
+    {
+      "name": "point_in_time_membership_rows",
+      "passed": false,
+      "blocking": true,
+      "detail": "every interval is explicitly survivorship-safe"
+    },
+    {
+      "name": "delisting_handled_rows",
+      "passed": false,
+      "blocking": true,
+      "detail": "every interval has documented delisting treatment"
+    },
+    {
+      "name": "rows:borrow_costs.csv",
+      "passed": false,
+      "blocking": true,
+      "detail": "table is empty"
+    },
+    {
+      "name": "rows:dividends.csv",
+      "passed": false,
+      "blocking": true,
+      "detail": "table is empty"
+    },
+    {
+      "name": "rows:corporate_actions.csv",
+      "passed": false,
+      "blocking": true,
+      "detail": "table is empty"
+    },
+    {
+      "name": "identity_linkage",
+      "passed": false,
+      "blocking": true,
+      "detail": "stock=36, master=0, membership=36"
+    },
+    {
+      "name": "required_market_symbols",
+      "passed": true,
+      "blocking": true,
+      "detail": "required=['QQQ', 'SOXX', 'SPY'], observed=['QQQ', 'SOXX', 'SPY']"
+    },
+    {
+      "name": "stock_symbol_count",
+      "passed": true,
+      "blocking": true,
+      "detail": "observed=36, required=20"
+    },
+    {
+      "name": "market_calendar_overlap",
+      "passed": true,
+      "blocking": true,
+      "detail": "overlap={'QQQ': 1.0, 'SOXX': 1.0, 'SPY': 1.0}"
+    },
+    {
+      "name": "history_years",
+      "passed": false,
+      "blocking": true,
+      "detail": "observed=5.02"
+    },
+    {
+      "name": "market_sessions",
+      "passed": false,
+      "blocking": true,
+      "detail": "observed=1260"
+    },
+    {
+      "name": "pre_oos_warmup",
+      "passed": false,
+      "blocking": true,
+      "detail": "observed=0"
+    },
+    {
+      "name": "borrow_panel_coverage",
+      "passed": false,
+      "blocking": true,
+      "detail": "expected_stock_dates=45143, missing_fraction=1.000000"
+    },
+    {
+      "name": "inactive_security_presence",
+      "passed": false,
+      "blocking": true,
+      "detail": "historical delisted securities represented=0"
+    },
+    {
+      "name": "delisting_outcome_coverage",
+      "passed": true,
+      "blocking": true,
+      "detail": "delisted=0, missing=[]"
+    },
+    {
+      "name": "realized_five_session_periods",
+      "passed": false,
+      "blocking": true,
+      "detail": "observed=33"
+    },
+    {
+      "name": "negative_soxx_periods",
+      "passed": false,
+      "blocking": true,
+      "detail": "observed=9"
+    },
+    {
+      "name": "bear_drawdown_episodes",
+      "passed": true,
+      "blocking": true,
+      "detail": "observed=5"
+    }
+  ],
+  "blockers": [
+    "raw_export_fingerprint: raw_manifest.json is missing",
+    "attestation:point_in_time_membership: provider/export attestation must be true",
+    "attestation:active_and_inactive_securities: provider/export attestation must be true",
+    "attestation:delisting_outcomes: provider/export attestation must be true",
+    "attestation:borrow_availability: provider/export attestation must be true",
+    "attestation:borrow_fees: provider/export attestation must be true",
+    "attestation:dividends: provider/export attestation must be true",
+    "attestation:corporate_actions: provider/export attestation must be true",
+    "price_adjustment: required=split_adjusted_dividend_unadjusted, observed=None",
+    "file:security_master.csv: file is missing",
+    "rows:security_master.csv: table is empty",
+    "point_in_time_membership_rows: every interval is explicitly survivorship-safe",
+    "delisting_handled_rows: every interval has documented delisting treatment",
+    "rows:borrow_costs.csv: table is empty",
+    "rows:dividends.csv: table is empty",
+    "rows:corporate_actions.csv: table is empty",
+    "identity_linkage: stock=36, master=0, membership=36",
+    "history_years: observed=5.02",
+    "market_sessions: observed=1260",
+    "pre_oos_warmup: observed=0",
+    "borrow_panel_coverage: expected_stock_dates=45143, missing_fraction=1.000000",
+    "inactive_security_presence: historical delisted securities represented=0",
+    "realized_five_session_periods: observed=33",
+    "negative_soxx_periods: observed=9"
+  ],
+  "warnings": [],
+  "metrics": {
+    "stock_rows": 45287,
+    "stock_symbols": 36,
+    "market_rows": 3780,
+    "market_sessions": 1260,
+    "history_years": 5.018480492813142,
+    "membership_rows": 36,
+    "delisted_symbols": 0,
+    "borrow_rows": 0,
+    "borrow_missing_fraction": 1.0,
+    "dividend_rows": 0,
+    "corporate_action_rows": 0,
+    "realized_periods": 33,
+    "negative_periods": 9,
+    "drawdown_episodes": 5
+  },
+  "source_strict_ready": false,
+  "research_sample_adequate": false,
+  "v4_unchanged_rerun_ready": false
+}
