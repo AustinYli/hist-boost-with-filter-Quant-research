@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
-"""Untouched forward signal journal for the frozen semiconductor strategy.
-
-Research/paper-only. This script does not submit orders.
+"""Forward signal journal for the frozen semiconductor strategy.
 
 Use:
   python3 ml_semiconductor_forward_test.py signal

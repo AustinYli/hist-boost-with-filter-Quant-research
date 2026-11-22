@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 """Frozen-feature horizon sweep for the semiconductor strategy.
 
-Research-only. This does not submit orders and does not change the frozen
-5-day paper bot. It tests whether shorter/longer targets work better under
+Tests whether shorter/longer targets work better under
 the same model family, frozen feature list, SOXX 200d regime filter, and
 portfolio construction.
 """

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Freeze and journal V4 research signals without submitting orders."""
+"""Freeze and journal V4 research signals."""
 
 from __future__ import annotations
 

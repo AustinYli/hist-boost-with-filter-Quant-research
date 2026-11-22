@@ -1,28 +1,21 @@
-# SOXX Moving-Average Filter Research Copies
+# SOXX Moving-Average Filter Tests
 
-This directory is isolated from the active 3-day and 5-day paper/live system.
-It contains physical copies of both fixed HGB model files for isolated 100-day
-and 300-day variants. The controlled comparison changes only the regime gate:
-`SOXX close > trailing N-day MA`, where N is 100, 200 (baseline), or 300.
+Copies of the 3-day and 5-day HGB models, used to test different SOXX regime filters. Only the regime gate changes: `SOXX close > trailing N-day MA`, with N = 100, 200 (baseline), or 300.
 
-The same runner also evaluates a stricter 200-day gate that requires SOXX to
-close at least 20% above its trailing 200-session moving average.
-An additional stress variant requires SOXX to close at least 40% above that
-average.
-It also evaluates a looser gate that permits exposure until SOXX closes more
-than 10% below its trailing 200-session moving average.
+The runner also tests:
 
-The selector model, 18 selection features, hyperparameters, universe,
-portfolio rules, transaction-cost assumption, signal horizons, chronological
-walk-forward procedure, and original out-of-sample endpoints are unchanged.
+- a stricter 200-day gate: SOXX must close at least 20% above its 200-day moving average;
+- a stress version of that gate at 40% above;
+- a looser gate that stays in the market until SOXX closes more than 10% below its 200-day moving average.
 
-Nothing in this directory submits orders or writes to active model, signal,
-state, or trading-log paths.
+Everything else is the same as the original: selector model, 18 features, hyperparameters, universe, portfolio rules, transaction costs, signal horizons, walk-forward procedure, and out-of-sample end dates.
 
-Run the isolated comparison with:
+This folder doesn't place orders or write to the live model, signal, state, or trading-log files.
+
+Run it with:
 
 ```bash
 python3 semiconductor_100d_filter/research.py
 ```
 
-Results are written only under `semiconductor_100d_filter/artifacts/`.
+Results go to `semiconductor_100d_filter/artifacts/`.

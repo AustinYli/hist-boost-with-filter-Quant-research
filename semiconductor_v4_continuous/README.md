@@ -1,43 +1,34 @@
 # Semiconductor V4 Continuous Alpha + Direction Overlay
 
-V4 is an isolated research system. It does not submit orders or modify the
-existing 3-day/5-day paper/live system or V3.
+Research only. V4 doesn't place orders or change the 3-day/5-day paper/live system or V3.
 
-## Locked Architecture
+## Design
 
-V4 decomposes stock returns into sector beta and stock-specific residual alpha:
+V4 splits each stock's return into sector beta and stock-specific residual:
 
 `stock_return = beta_to_SOXX * SOXX_return + residual`
 
 At every five-session decision date:
 
 1. RidgeCV predicts the next five-session SOXX return.
-2. Training-only time-series residuals estimate forecast uncertainty.
+2. Residuals from the training period estimate forecast uncertainty.
 3. Conviction is `tanh(prediction / uncertainty)`.
 4. HGB predicts each stock's beta-neutral residual return.
-5. The top ten and bottom ten form an always-on long-short alpha core.
-6. Conviction smoothly changes long and short gross exposure:
+5. The top ten and bottom ten stocks form a long-short core that is always on.
+6. Conviction shifts long and short gross exposure smoothly:
    - strong bull: +100% long, -30% short;
    - neutral: +50% long, -50% short;
    - strong bear: +30% long, -100% short.
-7. A Ledoit-Wolf covariance model and SLSQP optimizer control concentration,
-   SOXX beta, turnover, borrow expense, gross/net exposure, and predicted risk.
-8. If predicted annualized volatility exceeds 20%, all weights are scaled down.
+7. A Ledoit-Wolf covariance model and an SLSQP optimizer limit concentration, SOXX beta, turnover, borrow cost, gross/net exposure, and predicted risk.
+8. If predicted annualized volatility is above 20%, all weights are scaled down.
 
-The mapping, costs, model families, features, horizon, and constraints are fixed
-in `spec.json`; the first result is not used to tune them.
+The mapping, costs, models, features, horizon, and constraints are fixed in `spec.json` and weren't tuned on the first result.
 
-## Data And Commands
+## Data and Commands
 
-Strict mode requires point-in-time semiconductor membership, delisting handling,
-and historical borrow data. The existing IEX files can only exercise exploratory
-mode.
+Strict mode needs point-in-time semiconductor membership, delisting handling, and historical borrow data. The current IEX files only work in exploratory mode.
 
-The historical-data acceptance rules were locked on 2026-08-09 before acquiring
-new data. See `DATA_RESEARCH.md` for the source assessment and
-`data_contract.json` for the untouched challenge protocol. The preferred complete
-route is CRSP/Compustat plus S&P Global Securities Finance; retail OHLCV products
-do not provide the required historical borrow tape by themselves.
+The rules for accepting historical data were fixed on 2026-08-09, before any new data was collected. `DATA_RESEARCH.md` compares data sources and `data_contract.json` has the test protocol. The best full option is CRSP/Compustat plus S&P Global Securities Finance; retail OHLCV products don't include historical borrow data.
 
 ```bash
 python3 semiconductor_v4_continuous/prepare_data.py seed-existing
@@ -53,8 +44,7 @@ python3 semiconductor_v4_continuous/test_confirmation.py
 python3 semiconductor_v4_continuous/confirmation.py status
 ```
 
-To prepare a licensed provider export without touching the active exploratory
-files:
+To prepare a licensed vendor export without touching the exploratory files:
 
 ```bash
 python3 semiconductor_v4_continuous/historical_data.py init --stage /path/to/v4-stage
@@ -71,18 +61,11 @@ python3 semiconductor_v4_continuous/historical_data.py normalize \
   --stage /path/to/v4-stage --output /path/to/v4-normalized
 ```
 
-`raw/` contains byte-for-byte original exports. The canonical CSVs live below
-`canonical/`. Registration records the exact file set, sizes, hashes, vendor,
-version, as-of date, and license reference. Any later raw-file change blocks the
-dataset before V4 is allowed to run.
+`raw/` holds the vendor exports unchanged, and the cleaned CSVs go in `canonical/`. Registering records the file list, sizes, hashes, vendor, version, as-of date, and license reference. If a raw file changes afterward, V4 won't run on that dataset.
 
-Installation is deliberately separate. It verifies the frozen-hypothesis hashes,
-requires every strict data and sample-size check to pass, and backs up the current
-exploratory data before replacement. It cannot run without the explicit
-`INSTALL_STRICT_V4_DATA` confirmation token.
+Installing the data is a separate step. It checks the frozen-hypothesis hashes, requires every strict data and sample-size check to pass, and backs up the current exploratory data before replacing it. It only runs with the `INSTALL_STRICT_V4_DATA` confirmation token.
 
-After a passing bundle is installed, the confirmation workflow has two separate,
-irreversible gates:
+Once a dataset is installed, confirmation takes two steps that can't be undone:
 
 ```bash
 python3 semiconductor_v4_continuous/confirmation.py freeze-dataset \
@@ -92,16 +75,8 @@ python3 semiconductor_v4_continuous/confirmation.py run-once \
   --confirm RUN_FROZEN_V4_ONCE
 ```
 
-The dataset lock fingerprints every normalized table, source manifest, data
-contract, and frozen-hypothesis manifest. `run-once` creates its receipt before
-starting the model. A completed, failed, or interrupted claim cannot be silently
-retried. The generated report separates pre-2021 from the already inspected
-2021-2026 period and reports realized negative SOXX periods, negative direction
-predictions, and actual negative-net V4 periods as distinct counts.
+The dataset lock hashes every normalized table, the source manifest, the data contract, and the frozen-hypothesis manifest. `run-once` writes its receipt before the model starts, so a run that finished, failed, or was interrupted can't be quietly rerun. The report shows pre-2021 separately from 2021–2026 (which was already looked at) and counts negative SOXX periods, negative direction predictions, and negative-net V4 periods separately.
 
-Until the licensed bundle passes, `confirmation.py status` remains
-`awaiting_confirmation_quality_data`; no dataset lock or one-shot receipt is
-created.
+Until a licensed dataset passes, `confirmation.py status` shows `awaiting_confirmation_quality_data`, and no dataset lock or receipt is created.
 
-Outputs are written only below `semiconductor_v4_continuous/artifacts/`. V4 has
-no automatic paper or live trading connection.
+Outputs go to `semiconductor_v4_continuous/artifacts/`. V4 isn't connected to paper or live trading.

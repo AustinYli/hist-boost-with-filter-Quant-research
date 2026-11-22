@@ -133,7 +133,7 @@ def register_raw_exports(
     as_of_date: str,
     license_reference: str,
 ) -> dict:
-    """Fingerprint exact vendor exports without altering their contents."""
+    """Fingerprint vendor exports."""
     stage = stage.resolve()
     manifest_path = stage / RAW_MANIFEST_NAME
     if manifest_path.exists():

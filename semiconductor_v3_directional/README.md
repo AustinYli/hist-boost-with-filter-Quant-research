@@ -1,30 +1,24 @@
 # Semiconductor V3 Direction + Selection
 
-This is an isolated research branch. It does not import the live/paper executor,
-submit orders, or write to the active 3-day/5-day model, state, bar, or log files.
+Research only. It doesn't use the live/paper executor, place orders, or write to the 3-day/5-day model, state, bar, or log files.
 
-## Locked Hypothesis
+## Hypothesis
 
-At each five-session decision date after the close:
+At each five-session decision date, after the close:
 
-1. Predict the SOXX return from the next open through the open five sessions later.
-2. Predict each eligible stock's return over the same interval minus SOXX's return.
-3. If predicted SOXX return is positive, hold the ten highest-ranked stocks at +10% each.
-4. If predicted SOXX return is negative, hold the ten lowest-ranked stocks at -10% each.
-5. Rebalance at the next open and hold for five complete open-to-open intervals.
+1. Predict the SOXX return from the next open to the open five sessions later.
+2. Predict each eligible stock's return over the same period minus SOXX's return.
+3. If the SOXX prediction is positive, go long the ten highest-ranked stocks at +10% each.
+4. If it's negative, short the ten lowest-ranked stocks at -10% each.
+5. Rebalance at the next open and hold for five open-to-open periods.
 
-There is no neutral state and no simultaneous long-short book in this experiment.
+There's no neutral state and no combined long-short book in this version.
 
 ## Data Modes
 
-Strict research requires a point-in-time semiconductor membership table, delisting
-handling, and historical short borrow data. Strict mode fails closed when those are
-missing.
+Strict mode needs a point-in-time semiconductor membership table, delisting handling, and historical short-borrow data. It refuses to run if any of these are missing.
 
-The bundled `seed-existing` command creates an explicitly non-confirmatory dataset
-from the existing current-universe Alpaca/IEX files. It is useful only to verify the
-pipeline because it has limited history, survivorship bias, and no historical borrow
-availability.
+`seed-existing` builds a test dataset from the current Alpaca/IEX files. It's only good for checking that the pipeline runs: the history is short, it has survivorship bias, and there's no historical borrow data.
 
 ```bash
 python3 semiconductor_v3_directional/prepare_data.py seed-existing
@@ -33,9 +27,7 @@ python3 semiconductor_v3_directional/research.py run --exploratory
 python3 semiconductor_v3_directional/test_research.py
 ```
 
-To use institutional/vendor data, replace the files in
-`semiconductor_v3_directional/data/` with the documented schemas and run without
-`--exploratory`.
+To use vendor data, replace the files in `semiconductor_v3_directional/data/` with files matching the schemas below and run without `--exploratory`.
 
 ## Required Schemas
 
@@ -51,17 +43,15 @@ To use institutional/vendor data, replace the files in
 
 `date,symbol,shortable,annual_borrow_rate,source`
 
-Membership, classifications, delistings, and borrow fields must reflect information
-known on each historical date. Reconstructing today's constituents backward is not
-accepted by strict mode.
+Membership, classifications, delistings, and borrow data have to reflect what was known on each date. Strict mode won't accept today's constituent list applied backward.
 
 ## Outputs
 
-Research writes only below `semiconductor_v3_directional/artifacts/`:
+Written to `semiconductor_v3_directional/artifacts/`:
 
-- `results.json`: data audit, component metrics, strategy metrics, and pass/fail decision.
+- `results.json`: data audit, component metrics, strategy metrics, and the pass/fail result.
 - `predictions.csv`: walk-forward direction and stock-selection predictions.
 - `period_returns.csv`: primary, stress, and baseline five-session returns.
-- `retrain_audit.csv`: label-embargo and quarterly refit evidence.
+- `retrain_audit.csv`: label embargo and quarterly refit records.
 
-No V3 artifact is eligible for live or paper trading automatically.
+V3 results are never used for live or paper trading automatically.

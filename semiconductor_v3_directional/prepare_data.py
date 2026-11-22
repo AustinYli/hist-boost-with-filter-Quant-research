@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Prepare or validate isolated V3 research inputs without touching trading data."""
+"""Prepare or validate V3 research inputs."""
 
 from __future__ import annotations
 

@@ -1,9 +1,5 @@
 #!/usr/bin/env python3
-"""Isolated SOXX regime-filter research for copied 3d/5d HGB models.
-
-This module is research-only. It never imports or calls the trading bot and it
-does not write to the active model, signal, state, or trading-log directories.
-"""
+"""SOXX regime-filter research for copied 3d/5d HGB models."""
 
 from __future__ import annotations
 
@@ -36,7 +32,6 @@ DEFAULT_ARTIFACT_DIR = PROJECT_DIR / "artifacts"
 DEFAULT_STOCK_BARS = WORKSPACE / "data" / "semiconductor_sector_1d_5y.csv"
 DEFAULT_MARKET_BARS = WORKSPACE / "data" / "semiconductor_market_1d_5y.csv"
 
-# These endpoints reproduce the original frozen horizon comparison exactly.
 ORIGINAL_OOS_END = {
     3: pd.Timestamp("2026-07-27").date(),
     5: pd.Timestamp("2026-07-23").date(),

@@ -2,7 +2,7 @@
 """
 Trailing stop helper for a long stock position.
 
-Default behavior is safe: it runs in dry-run mode unless --live is passed.
+Runs in dry-run mode unless --live is passed.
 Alpaca paper trading is supported through environment variables:
 
     ALPACA_API_KEY_ID

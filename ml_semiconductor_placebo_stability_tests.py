@@ -1,9 +1,5 @@
 #!/usr/bin/env python3
-"""Placebo and parameter-stability tests for the frozen semiconductor strategy.
-
-Research-only. These tests diagnose overfitting risk and must not be used to
-select a replacement strategy.
-"""
+"""Placebo and parameter-stability tests for the frozen semiconductor strategy."""
 
 from __future__ import annotations
 

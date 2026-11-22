@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
 """Within-date shuffled-target confirmation test for the frozen strategy.
 
-Research-only. This does not change the frozen strategy and does not trade.
-
 The null is:
     features contain no cross-sectional stock-selection information.
 

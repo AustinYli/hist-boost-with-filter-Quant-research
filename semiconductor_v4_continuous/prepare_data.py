@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Prepare isolated V4 research inputs without touching trading or V3 files."""
+"""Prepare V4 research inputs."""
 
 from __future__ import annotations
 
